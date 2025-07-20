@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about Thekua Ba's journey - bringing authentic Bihar traditional snacks to homes across India">
+    <title>About Us - Thekua Ba | Our Story & Heritage</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Force Green Theme -->
+    <style>
+        body { background-color: #96cdc4; }
+        .header { background:  rgba(15, 61, 55, 0.95)!important; }
+        .page-header { background: linear-gradient(rgba(11, 43, 38, 0.8), rgba(11, 43, 38, 0.8)), url('assets/images/about/hero-bg.jpg') center/cover !important; }
+    </style>
+</head>
+<body>
+    <!-- Header (Same as index.html) -->
+    <header id="main-header" class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <img src="assets\images\logo.jpg" alt="Thekua Ba Logo">
+                    <span>Thekua Ba</span>
+                </a>
+                
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link active">About</a></li>
+                    <li><a href="products.html" class="nav-link">Products</a></li>
+                    <li><a href="track-order.html" class="nav-link">Track Order</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="search-btn" onclick="toggleSearch()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </button>
+                    
+                    <a href="cart.html" class="cart-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 2 5 9l14 0-4-7H9zM5 9v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    
+                    <a href="login.html" class="user-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </a>
+                    
+                    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Search Bar -->
+        <div class="search-bar" id="searchBar">
+            <div class="search-container">
+                <input type="text" placeholder="Search for delicious Bihar snacks..." id="searchInput">
+                <button onclick="performSearch()">Search</button>
+                <button class="close-search" onclick="toggleSearch()">×</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-content">
+            <h1 class="page-title animate-fade-up">Our Story</h1>
+            <p class="page-subtitle animate-fade-up-delay">Preserving Bihar's Culinary Heritage Since 2024</p>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="our-story section-padding">
+        <div class="container">
+            <div class="story-content">
+                <div class="story-text animate-fade-up">
+                    <h2>From Bihar's Heart to Your Home</h2>
+                    <p>Thekua Ba के जनम एगो सादगी भइल ख्वाहिश से भइल - बिहार के परंपरागत नाश्ता के साँच स्वाद दुनिया से बाँटे के चाह में। हमार सफर शुरू भइल पटना के छोट-छोट रसोई से, जहाँ पीढ़ी दर पीढ़ी चलत आ रहल बियाहे के रेसिपी लोग एक-दूजे से बाँटत रहलें।</p>
+                    <p>2024 में बनल ई कंपनी के मकसद रहल बिहार के समृद्ध खानपान परंपरा के बचावे आ बढ़ावे के। हर चीज़ जे हम बनाइलीं, उहे पुरनका तरीका से बनावल जाला, आउर ओह में इस्तेमाल होखे वाला सारा सामान सीधे बिहार के किसान लोग से लिहल जाला।</p>
+                    <p>जेकरा के एक जमाना में खाली परिवार में बनावल जात रहल, उ अब पूरा देश में बिहार के असली स्वाद पहुँचावे वाला एगो अभियान बन गइल बा। हमनी के मानेनी कि खाना खाली स्वादे ना होला, बल्कि उ कहानी, याद, आ ओह प्यार के भी हिस्सा हवे, जे रसोई में घुलल मिलल रहेला।</p>
+                </div>
+                <div class="story-image animate-fade-up-delay">
+                    <img src="assets\images\about\heritage.png" alt="Bihar Heritage" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-image" style="display:none;">
+                        <span>🏛️</span>
+                        <p>Our Heritage</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="our-values section-padding bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" style="color: #96cdc4;">Our Values</h2>
+                <p class="section-subtitle">What drives us every day</p>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card animate-fade-up">
+                    <div class="value-icon">🌾</div>
+                    <h3>Authenticity</h3>
+                    <p>We stay true to traditional recipes, ensuring every bite tastes like home-cooked Bihar delicacies.</p>
+                </div>
+                
+                <div class="value-card animate-fade-up-delay">
+                    <div class="value-icon">🤝</div>
+                    <h3>Community</h3>
+                    <p>Supporting local farmers and artisans, creating sustainable livelihoods in rural Bihar.</p>
+                </div>
+                
+                <div class="value-card animate-fade-up-delay-2">
+                    <div class="value-icon">💚</div>
+                    <h3>Quality</h3>
+                    <p>Using only natural ingredients, no preservatives, ensuring freshness in every product.</p>
+                </div>
+                
+                <div class="value-card animate-fade-up">
+                    <div class="value-icon">🎯</div>
+                    <h3>Innovation</h3>
+                    <p>Blending traditional methods with modern packaging and delivery for the best experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="our-process section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How We Make Our Snacks</h2>
+                <p class="section-subtitle" style="color: #f3f3f3;">Traditional methods, modern standards</p>
+            </div>
+            
+            <div class="process-timeline">
+                <div class="process-step animate-fade-up">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3>Sourcing Ingredients</h3>
+                        <p style="color: #113530;">We source the finest wheat, jaggery, and spices directly from Bihar's farmers, ensuring authenticity and supporting local communities.</p>
+
+                    </div>
+                </div>
+                
+                <div class="process-step animate-fade-up-delay">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3>Traditional Preparation</h3>
+                        <p style="color: #113530;">Our skilled artisans follow time-honored recipes, hand-crafting each batch with the same care as generations before.</p>
+
+                    </div>
+                </div>
+                
+                <div class="process-step animate-fade-up-delay-2">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3>Quality Control</h3>
+                        <p style="color: #113530;">Every product undergoes strict quality checks to ensure taste, texture, and freshness meet our high standards.</p>
+                    </div>
+                </div>
+                
+                <div class="process-step animate-fade-up">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h3>Fresh Delivery</h3>
+                        <p style="color: #113530;">Packed with care and delivered fresh to your doorstep, bringing Bihar's authentic taste to your home.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="our-team section-padding bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" style="color: #96cdc4;">Meet Our Team</h2>
+                <p class="section-subtitle">The passionate people behind Thekua Ba</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-member animate-fade-up">
+                    <div class="member-image">
+                        <img src="assets\images\about\Aporve.jpg" alt="Founder" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="member-placeholder" style="display:none;">👨‍💼</div>
+                    </div>
+                    <h3>Apoorva Baibhava</h3>
+                    <p class="member-role">Founder & CEO</p>
+                    <p class="member-bio">Born and raised in Patna, bringing 20 years of experience in traditional Bihar cuisine.</p>
+                </div>
+                
+                
+                <div class="team-member animate-fade-up">
+                    <div class="member-image">
+                        <img src="assets\images\about\Prashant.jpg" alt="Operations Head" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="member-placeholder" style="display:none;">👨‍💻</div>
+                    </div>
+                    <h3>Prashant Kishore</h3>
+                    <p class="member-role">Operations Head</p>
+                    <p class="member-bio">Ensuring smooth operations and timely delivery of fresh products nationwide.</p>
+                </div>
+                
+                <div class="team-member animate-fade-up">
+                    <div class="member-image">
+                        <img src="assets\images\about\Murli.jpg" alt="Quality Manager" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="member-placeholder" style="display:none;">👩‍🔬</div>
+                    </div>
+                    <h3>Murli Dharan</h3>
+                    <p class="member-role">Quality Manager</p>
+                    <p class="member-bio">Maintaining highest standards of quality and hygiene in production.</p>
+                </div>
+
+                <div class="team-member animate-fade-up">
+                    <div class="member-image">
+                        <img src="" alt="Head Chef" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="member-placeholder" style="display:none;">👩‍🍳</div>
+                    </div>
+                    <h3>Khushbu</h3>
+                    <p class="member-role">Head Chef</p>
+                    <p class="member-bio">Master of traditional recipes, ensuring authentic taste in every product.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section section-padding">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Experience the Authentic Taste of Bihar</h2>
+                <p>Join thousands of customers who have rediscovered the traditional flavors</p>
+                <a href="products.html" class="btn btn-primary">Explore Our Products</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Thekua Ba</h3>
+                    <p>Bringing the authentic taste of Bihar to your doorstep. Experience traditional snacks made with love and heritage.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="YouTube">📺</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Our Products</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>📍 Patna, Bihar, India</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ info@thekuaba.com</p>
+                    <p>⏰ Mon-Sat: 9AM-7PM</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Thekua Ba. All rights reserved. Made with ❤️ in Bihar</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Additional CSS for About Page -->
+    <style>
+        .page-header {
+            background: linear-gradient(rgba(139, 69, 19, 0.8), rgba(139, 69, 19, 0.8)), url('assets/images/about/hero-bg.jpg') center/cover;
+            padding: 120px 0 60px;
+            text-align: center;
+            color: white;
+        }
+
+        .page-title {
+            font-family: var(--font-secondary);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .story-text h2 {
+            font-family: var(--font-secondary);
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .story-text p {
+            color: rgb(57, 68, 34);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .story-image {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .placeholder-image {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .placeholder-image span {
+            font-size: 6rem;
+            margin-bottom: 1rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgb(226, 227, 225);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-fast);
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .process-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+            transform: translateX(-50%);
+        }
+
+        .process-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .process-step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.25rem;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .step-content {
+            width: 45%;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .process-step:nth-child(odd) .step-content {
+            margin-right: auto;
+        }
+
+        .process-step:nth-child(even) .step-content {
+            margin-left: auto;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-fast);
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .member-image {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .member-placeholder {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .team-member h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .member-role {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-bio {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+        }
+
+        .cta-content h2 {
+            font-family: var(--font-secondary);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-section .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .cta-section .btn-primary:hover {
+            background: var(--light-color);
+        }
+
+        @media (max-width: 768px) {
+            .story-content {
+                grid-template-columns: 1fr;
+            }
+
+            .process-timeline::before {
+                left: 30px;
+            }
+
+            .process-step {
+                flex-direction: column !important;
+                align-items: flex-start;
+                margin-left: 60px;
+            }
+
+            .step-number {
+                left: 30px;
+            }
+
+            .step-content {
+                width: 100%;
+                margin: 0 !important;
+            }
+        }
+    </style>
+
+    <!-- JavaScript Files -->
+    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/utils.js"></script>
+</body>
+</html>

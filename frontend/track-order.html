@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Track your Thekua Ba order - Real-time order status and delivery updates">
+    <title>Track Order - Thekua Ba</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/style.css?v=4">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Force Green Theme -->
+    <style>
+        body { background-color: #96cdc4; }
+        .header { background: rgba(11, 43, 38, 0.95) !important; }
+        .page-header { background: linear-gradient(rgba(11, 43, 38, 0.8), rgba(11, 43, 38, 0.8)), url('assets/images/track-bg.jpg') center/cover !important; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="main-header" class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <img src="assets/images/logo.jpg" alt="Thekua Ba Logo">
+                    <span>Thekua Ba</span>
+                </a>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="products.html" class="nav-link">Products</a></li>
+                    <li><a href="track-order.html" class="nav-link active">Track Order</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="search-btn" onclick="toggleSearch()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </button>
+
+                    <a href="cart.html" class="cart-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 2 5 9l14 0-4-7H9zM5 9v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+
+                    <a href="login.html" class="user-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </a>
+
+                    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-content">
+            <h1 class="page-title animate-fade-up">Track Your Order</h1>
+            <p class="page-subtitle animate-fade-up-delay">Real-time updates on your delivery</p>
+        </div>
+    </section>
+
+    <!-- Track Order Section -->
+    <section class="track-order-section section-padding">
+        <div class="container">
+            <!-- Tracking Form -->
+            <div class="tracking-form-container animate-fade-up">
+                <h2>Enter Your Order Details</h2>
+                <form id="trackingForm" class="tracking-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="orderNumber">Order Number</label>
+                            <input type="text" id="orderNumber" placeholder="e.g., BH123456789" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emailPhone">Email or Phone</label>
+                            <input type="text" id="emailPhone" placeholder="Email or phone used for order" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Track Order</button>
+                </form>
+            </div>
+
+            <!-- Order Status Result -->
+            <div id="orderResult" class="order-result" style="display: none;">
+                <div class="order-info animate-fade-up">
+                    <div class="order-header">
+                        <h3>Order #<span id="orderNumberDisplay"></span></h3>
+                        <span class="order-date" id="orderDate"></span>
+                    </div>
+
+                    <!-- Order Progress -->
+                    <div class="order-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-steps">
+                            <div class="progress-step" data-step="1">
+                                <div class="step-icon">📦</div>
+                                <div class="step-info">
+                                    <h4>Order Placed</h4>
+                                    <p class="step-date"></p>
+                                </div>
+                            </div>
+                            <div class="progress-step" data-step="2">
+                                <div class="step-icon">✅</div>
+                                <div class="step-info">
+                                    <h4>Confirmed</h4>
+                                    <p class="step-date"></p>
+                                </div>
+                            </div>
+                            <div class="progress-step" data-step="3">
+                                <div class="step-icon">👨‍🍳</div>
+                                <div class="step-info">
+                                    <h4>Preparing</h4>
+                                    <p class="step-date"></p>
+                                </div>
+                            </div>
+                            <div class="progress-step" data-step="4">
+                                <div class="step-icon">🚚</div>
+                                <div class="step-info">
+                                    <h4>Out for Delivery</h4>
+                                    <p class="step-date"></p>
+                                </div>
+                            </div>
+                            <div class="progress-step" data-step="5">
+                                <div class="step-icon">✨</div>
+                                <div class="step-info">
+                                    <h4>Delivered</h4>
+                                    <p class="step-date"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Details -->
+                    <div class="order-details-grid">
+                        <div class="order-details-card">
+                            <h4>Delivery Address</h4>
+                            <p id="deliveryAddress"></p>
+                        </div>
+
+                        <div class="order-details-card">
+                            <h4>Expected Delivery</h4>
+                            <p id="expectedDelivery"></p>
+                        </div>
+
+                        <div class="order-details-card">
+                            <h4>Order Items</h4>
+                            <div id="orderItems"></div>
+                        </div>
+
+                        <div class="order-details-card">
+                            <h4>Total Amount</h4>
+                            <p class="order-total" id="orderTotal"></p>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <button class="btn btn-secondary" onclick="trackAnother()">Track Another Order</button>
+                        <button class="btn btn-primary" onclick="downloadInvoice()">Download Invoice</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders (for logged in users) -->
+            <div class="recent-orders" id="recentOrders" style="display: none;">
+                <h3>Your Recent Orders</h3>
+                <div class="orders-list" id="ordersList">
+                    <!-- Recent orders will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Help Section -->
+    <section class="track-help section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title" style="color: #ffffff;">Need Help?</h2>
+            <div class="help-cards">
+                <div class="help-card animate-fade-up">
+                    <span class="help-icon">📞</span>
+                    <h3>Call Us</h3>
+                    <p>+91 98765 43210</p>
+                    <p>Mon-Sat: 9AM-7PM</p>
+                </div>
+                <div class="help-card animate-fade-up-delay">
+                    <span class="help-icon">✉️</span>
+                    <h3>Email Support</h3>
+                    <p>support@thekuaba.com</p>
+                    <p>24/7 Support</p>
+                </div>
+                <div class="help-card animate-fade-up-delay-2">
+                    <span class="help-icon">💬</span>
+                    <h3>Live Chat</h3>
+                    <p>Chat with our team</p>
+                    <button class="btn btn-primary" onclick="openChatbot()">Start Chat</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Thekua Ba</h3>
+                    <p>Bringing the authentic taste of Bihar to your doorstep. Experience traditional snacks made with love and heritage.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="YouTube">📺</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Our Products</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>📍 Patna, Bihar, India</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ info@thekuaba.com</p>
+                    <p>⏰ Mon-Sat: 9AM-7PM</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Thekua Ba. All rights reserved. Made with ❤️ in Bihar</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Container -->
+    <div id="chatbot-container" class="chatbot-container" style="display: none;">
+        <div class="chatbot-header">
+            <h3>Thekua Ba Support</h3>
+            <button class="chatbot-close" onclick="closeChatbot()">×</button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <!-- Messages will be displayed here -->
+        </div>
+        <div class="chatbot-input-container">
+            <input type="text" id="chatbot-input" placeholder="Type your message..." onkeypress="handleChatInput(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle" onclick="toggleChatbot()" id="chatbot-toggle">
+        <span class="chat-icon">💬</span>
+        <span class="close-icon" style="display: none;">×</span>
+    </button>
+
+    <!-- Additional CSS for Track Order Page -->
+    <style>
+        .track-order-section {
+            min-height: 60vh;
+        }
+        .tracking-form-container {
+            background: #FCFEFC;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            text-align: center;
+        }
+        .tracking-form-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+        .tracking-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .tracking-form .btn {
+            max-width: 200px;
+        }
+        .order-result {
+            margin-top: 3rem;
+        }
+        .order-info {
+            background: #FCFEFC;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #E5E7EB;
+        }
+        .order-header h3 {
+            font-size: 1.75rem;
+            color: var(--primary-color);
+        }
+        .order-date {
+            color: var(--text-light);
+        }
+        /* Progress Bar */
+        .order-progress {
+            margin: 3rem 0;
+        }
+        .progress-bar {
+            height: 4px;
+            background: #E5E7EB;
+            border-radius: 2px;
+            position: relative;
+            margin-bottom: 3rem;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--secondary-color);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+        .progress-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            background: #E5E7EB;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 0.5rem;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        .progress-step.active .step-icon,
+        .progress-step.completed .step-icon {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+        }
+        .progress-step.current .step-icon {
+            background: var(--primary-color);
+            animation: pulse 2s infinite;
+        }
+        .step-info h4 {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+        .step-date {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        /* Order Details Grid */
+        .order-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .order-details-card {
+            background: #F5F9F5;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+        }
+        .order-details-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .order-total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        .order-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        /* Recent Orders */
+        .recent-orders {
+            margin-top: 3rem;
+            background: #FCFEFC;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        .recent-orders h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        .order-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius-md);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .order-card:hover {
+            background: #F5F9F5;
+            transform: translateX(5px);
+        }
+        /* Help Cards */
+        .help-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .help-card {
+            text-align: center;
+            background: #FCFEFC;
+            padding: 2rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow-sm);
+        }
+        .help-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .help-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .help-card p {
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 500px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        .chatbot-container.active {
+            display: flex;
+        }
+        .chatbot-header {
+            background: #0b2b26;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chatbot-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .chatbot-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f5f5f5;
+        }
+        .chat-message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+        .chat-message.bot {
+            justify-content: flex-start;
+        }
+        .message-content {
+            max-width: 70%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            position: relative;
+        }
+        .chat-message.user .message-content {
+            background: #FF6B6B;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        .chat-message.bot .message-content {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .message-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+        }
+        .chatbot-input-container {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+        .chatbot-input-container input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+        }
+        .chatbot-input-container button {
+            padding: 10px 20px;
+            background: #FF6B6B;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        .chatbot-input-container button:hover {
+            background: #e55555;
+        }
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #FF6B6B;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .chatbot-toggle span {
+            font-size: 28px;
+        }
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 15px;
+            background: white;
+            border-radius: 15px;
+            width: fit-content;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .quick-reply-btn {
+            padding: 8px 15px;
+            background: white;
+            border: 1px solid #FF6B6B;
+            color: #FF6B6B;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+        .quick-reply-btn:hover {
+            background: #FF6B6B;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .tracking-form .form-row {
+                grid-template-columns: 1fr;
+            }
+            .order-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+            .progress-steps {
+                overflow-x: auto;
+                padding-bottom: 1rem;
+            }
+            .order-actions {
+                flex-direction: column;
+            }
+            .order-actions .btn {
+                width: 100%;
+            }
+            .chatbot-container {
+                width: 90%;
+                right: 5%;
+                left: 5%;
+                bottom: 80px;
+                height: 70vh;
+                max-height: 500px;
+            }
+            .chatbot-toggle {
+                bottom: 15px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+
+    <!-- JavaScript -->
+    <script>
+        // Track order form submission
+        document.getElementById('trackingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const orderNumber = document.getElementById('orderNumber').value.toUpperCase();
+            const emailPhone = document.getElementById('emailPhone').value;
+
+            // Simulate order tracking
+            trackOrder(orderNumber, emailPhone);
+        });
+
+        // Sample order data
+        const sampleOrders = {
+            'BH123456789': {
+                status: 3,
+                date: '2024-01-15',
+                items: ['Traditional Thekua x2', 'Crispy Khaja x1'],
+                total: 520,
+                address: 'John Doe, 123 Main Street, Patna, Bihar 800001',
+                expectedDelivery: '2024-01-18',
+                timeline: {
+                    1: '2024-01-15 10:30 AM',
+                    2: '2024-01-15 11:00 AM',
+                    3: '2024-01-16 09:00 AM'
+                }
+            },
+            'BH987654321': {
+                status: 5,
+                date: '2024-01-10',
+                items: ['Coconut Thekua x3', 'Sweet Gajja x2'],
+                total: 860,
+                address: 'Jane Smith, 456 Park Road, Delhi 110001',
+                expectedDelivery: '2024-01-13',
+                timeline: {
+                    1: '2024-01-10 02:00 PM',
+                    2: '2024-01-10 02:30 PM',
+                    3: '2024-01-11 08:00 AM',
+                    4: '2024-01-12 10:00 AM',
+                    5: '2024-01-13 03:00 PM'
+                }
+            }
+        };
+
+        function trackOrder(orderNumber, emailPhone) {
+            const order = sampleOrders[orderNumber];
+
+            if (order) {
+                displayOrderStatus(orderNumber, order);
+                document.getElementById('orderResult').style.display = 'block';
+                document.getElementById('orderResult').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                showNotification('Order not found. Please check your order number.', 'error');
+            }
+        }
+
+        function displayOrderStatus(orderNumber, order) {
+            // Update order info
+            document.getElementById('orderNumberDisplay').textContent = orderNumber;
+            document.getElementById('orderDate').textContent = `Placed on ${formatDate(order.date)}`;
+
+            // Update progress
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = `${(order.status / 5) * 100}%`;
+
+            // Update steps
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                const stepNum = index + 1;
+                step.classList.remove('completed', 'current', 'active');
+
+                if (stepNum < order.status) {
+                    step.classList.add('completed');
+                } else if (stepNum === order.status) {
+                    step.classList.add('current', 'active');
+                }
+
+                // Update step date
+                const stepDate = step.querySelector('.step-date');
+                if (order.timeline[stepNum]) {
+                    stepDate.textContent = order.timeline[stepNum];
+                } else {
+                    stepDate.textContent = '';
+                }
+            });
+
+            // Update order details
+            document.getElementById('deliveryAddress').textContent = order.address;
+            document.getElementById('expectedDelivery').textContent = formatDate(order.expectedDelivery);
+            document.getElementById('orderItems').innerHTML = order.items.map(item => `<p>${item}</p>`).join('');
+            document.getElementById('orderTotal').textContent = `₹${order.total}`;
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function trackAnother() {
+            document.getElementById('trackingForm').reset();
+            document.getElementById('orderResult').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function downloadInvoice() {
+            showNotification('Invoice download will be available soon!', 'info');
+        }
+
+        // Check if user is logged in and show recent orders
+        let isLoggedIn = false; // This would be determined by your authentication system
+        if (isLoggedIn) {
+            document.getElementById('recentOrders').style.display = 'block';
+            loadRecentOrders();
+        }
+
+        function loadRecentOrders() {
+            const ordersList = document.getElementById('ordersList');
+            ordersList.innerHTML = `
+                <div class="order-card" onclick="fillOrderNumber('BH123456789')">
+                    <div>
+                        <h4>Order #BH123456789</h4>
+                        <p>Placed on Jan 15, 2024</p>
+                    </div>
+                    <div>
+                        <span class="order-status-badge preparing">Preparing</span>
+                    </div>
+                </div>
+                <div class="order-card" onclick="fillOrderNumber('BH987654321')">
+                    <div>
+                        <h4>Order #BH987654321</h4>
+                        <p>Placed on Jan 10, 2024</p>
+                    </div>
+                    <div>
+                        <span class="order-status-badge delivered">Delivered</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function fillOrderNumber(orderNumber) {
+            document.getElementById('orderNumber').value = orderNumber;
+            document.getElementById('trackingForm').dispatchEvent(new Event('submit'));
+        }
+
+        // Notification function
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                background: ${type === 'error' ? '#ff4444' : '#4CAF50'};
+                color: white;
+                border-radius: 5px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+
+            document.body.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Chatbot functionality
+        let chatbotOpen = false;
+
+        // Initialize chatbot after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Chatbot initialized');
+        });
+
+        function openChatbot() {
+            console.log('Opening chatbot...');
+            const chatbotContainer = document.getElementById('chatbot-container');
+            const chatbotToggle = document.getElementById('chatbot-toggle');
+            const chatbotMessages = document.getElementById('chatbot-messages');
+            const chatbotInput = document.getElementById('chatbot-input');
+
+            if (chatbotContainer) {
+                chatbotContainer.style.display = 'flex';
+                chatbotContainer.classList.add('active');
+
+                if (chatbotToggle) {
+                    chatbotToggle.querySelector('.chat-icon').style.display = 'none';
+                    chatbotToggle.querySelector('.close-icon').style.display = 'block';
+                }
+
+                chatbotOpen = true;
+
+                // Show welcome message if first time
+                if (chatbotMessages && chatbotMessages.children.length === 0) {
+                    setTimeout(() => {
+                        addMessage("नमस्ते! Welcome to Thekua Ba! 🙏 I'm your virtual assistant. How can I help you today?");
+                        addQuickReplies(['Track Order', 'View Products', 'Delivery Info', 'Contact Support']);
+                    }, 500);
+                }
+
+                if (chatbotInput) {
+                    chatbotInput.focus();
+                }
+            }
+        }
+
+        function closeChatbot() {
+            console.log('Closing chatbot...');
+            const chatbotContainer = document.getElementById('chatbot-container');
+            const chatbotToggle = document.getElementById('chatbot-toggle');
+
+            if (chatbotContainer) {
+                chatbotContainer.style.display = 'none';
+                chatbotContainer.classList.remove('active');
+            }
+
+            if (chatbotToggle) {
+                chatbotToggle.querySelector('.chat-icon').style.display = 'block';
+                chatbotToggle.querySelector('.close-icon').style.display = 'none';
+            }
+
+            chatbotOpen = false;
+        }
+
+        function toggleChatbot() {
+            if (chatbotOpen) {
+                closeChatbot();
+            } else {
+                openChatbot();
+            }
+        }
+
+        // Chatbot responses database
+        const chatbotResponses = {
+            greetings: [
+                "नमस्ते! Welcome to Thekua Ba! 🙏 How can I help you today?",
+                "Hello! I'm here to assist you with your orders and queries about our delicious Bihari snacks!"
+            ],
+            orderTracking: [
+                "To track your order, please provide your order number (e.g., BH123456789) and I'll help you check its status.",
+                "I can help you track your order! Just share your order number and I'll fetch the details for you."
+            ],
+            products: [
+                "We offer authentic Bihari snacks including:\n• Traditional Thekua\n• Crispy Khaja\n• Coconut Thekua\n• Sweet Gajja\n\nAll made with traditional recipes and premium ingredients! 🍪",
+                "Our specialty is Thekua - a traditional Bihari sweet snack made with wheat flour, jaggery, and ghee. We also have various flavors and other traditional snacks!"
+            ],
+            delivery: [
+                "We deliver across India! 🚚\n• Local (Patna): 1-2 days\n• Major cities: 3-4 days\n• Other locations: 5-7 days\n\nFree delivery on orders above ₹500!",
+                "Your order will be carefully packed and delivered fresh. Track your order anytime using the order tracking feature on our website."
+            ],
+            contact: [
+                "You can reach us at:\n📞 +91 98765 43210\n✉️ support@thekuaba.com\n⏰ Mon-Sat: 9AM-7PM",
+                "Feel free to call us during business hours or drop an email. We usually respond within 24 hours!"
+            ],
+            payment: [
+                "We accept multiple payment methods:\n• Credit/Debit Cards\n• UPI (GPay, PhonePe, Paytm)\n• Net Banking\n• Cash on Delivery (COD)\n\nAll payments are secure and encrypted! 💳",
+                "You can pay using any convenient method. For COD, a nominal charge of ₹50 applies."
+            ],
+            aboutUs: [
+                "Thekua Ba brings you the authentic taste of Bihar! 🌾 We're passionate about preserving traditional recipes while ensuring quality and hygiene. Every product is made with love, just like your grandmother would make!",
+                "We started with a mission to share Bihar's culinary heritage with the world. Our snacks are made using traditional methods with modern hygiene standards."
+            ],
+            thanks: [
+                "You're welcome! 😊 Is there anything else I can help you with?",
+                "My pleasure! Feel free to ask if you have more questions about our products or services."
+            ],
+            default: [
+                "I understand you're asking about something specific. Could you please rephrase your question? You can ask me about:\n• Order tracking\n• Our products\n• Delivery information\n• Payment options\n• Contact details",
+                "I'm here to help! You can ask me about orders, products, delivery, or any other queries related to Thekua Ba."
+            ]
+        };
+
+        function detectIntent(message) {
+            const lowerMessage = message.toLowerCase();
+
+            if (lowerMessage.match(/hello|hi|namaste|hey|greetings/)) {
+                return 'greetings';
+            } else if (lowerMessage.match(/track|order|status|where is my|delivery status/)) {
+                return 'orderTracking';
+            } else if (lowerMessage.match(/product|thekua|khaja|snack|menu|items|what do you/)) {
+                return 'products';
+            } else if (lowerMessage.match(/deliver|shipping|how long|when will|free delivery/)) {
+                return 'delivery';
+            } else if (lowerMessage.match(/contact|phone|email|call|reach/)) {
+                return 'contact';
+            } else if (lowerMessage.match(/pay|payment|cod|cash|upi|card/)) {
+                return 'payment';
+            } else if (lowerMessage.match(/about|who are|company|bihar/)) {
+                return 'aboutUs';
+            } else if (lowerMessage.match(/thank|thanks|okay|ok/)) {
+                return 'thanks';
+            } else {
+                return 'default';
+            }
+        }
+
+        function addMessage(message, isUser = false) {
+            const chatbotMessages = document.getElementById('chatbot-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${isUser ? 'user' : 'bot'}`;
+
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            messageContent.innerHTML = message.replace(/\n/g, '<br>');
+
+            const messageTime = document.createElement('div');
+            messageTime.className = 'message-time';
+            messageTime.textContent = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+            messageContent.appendChild(messageTime);
+            messageDiv.appendChild(messageContent);
+            chatbotMessages.appendChild(messageDiv);
+
+            // Scroll to bottom
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const chatbotMessages = document.getElementById('chatbot-messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-message bot typing-message';
+            typingDiv.innerHTML = `
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+            chatbotMessages.appendChild(typingDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            return typingDiv;
+        }
+
+        function addQuickReplies(replies) {
+            const chatbotMessages = document.getElementById('chatbot-messages');
+            const quickRepliesDiv = document.createElement('div');
+            quickRepliesDiv.className = 'quick-replies';
+
+            replies.forEach(reply => {
+                const button = document.createElement('button');
+                button.className = 'quick-reply-btn';
+                button.textContent = reply;
+                button.onclick = () => {
+                    const chatbotInput = document.getElementById('chatbot-input');
+                    chatbotInput.value = reply;
+                    sendMessage();
+                };
+                quickRepliesDiv.appendChild(button);
+            });
+
+            chatbotMessages.appendChild(quickRepliesDiv);
+        }
+
+        function getBotResponse(intent) {
+            const responses = chatbotResponses[intent];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        function sendMessage() {
+            const chatbotInput = document.getElementById('chatbot-input');
+            const message = chatbotInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, true);
+            chatbotInput.value = '';
+
+            // Show typing indicator
+            const typingIndicator = showTypingIndicator();
+
+            // Simulate bot thinking time
+            setTimeout(() => {
+                typingIndicator.remove();
+
+                // Detect intent and get response
+                const intent = detectIntent(message);
+                const response = getBotResponse(intent);
+                addMessage(response);
+
+                // Add quick replies based on context
+                if (intent === 'greetings') {
+                    addQuickReplies(['Track Order', 'View Products', 'Contact Support']);
+                } else if (intent === 'orderTracking') {
+                    addQuickReplies(['BH123456789', 'BH987654321', 'Contact Support']);
+                } else if (intent === 'products') {
+                    addQuickReplies(['Order Now', 'Delivery Info', 'Contact Us']);
+                }
+            }, 1000 + Math.random() * 1000);
+        }
+
+        function handleChatInput(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Add animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+
+            @keyframes pulse {
+                0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+                70% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your Thekua Ba account - View orders, update profile, and manage addresses">
+    <title>My Account - Thekua Ba</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/style.css?v=4">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Force Green Theme -->
+    <style>
+        body { background-color: #F5F9F5; }
+        .header { background: rgba(11, 43, 38, 0.95) !important; }
+        .profile-card { background: #FCFEFC; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="main-header" class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <img src="assets\images\logo.jpg" alt="Thekua Ba Logo">
+                    <span>Thekua Ba</span>
+                </a>
+                
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="products.html" class="nav-link">Products</a></li>
+                    <li><a href="track-order.html" class="nav-link">Track Order</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="search-btn" onclick="toggleSearch()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </button>
+                    
+                    <a href="cart.html" class="cart-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 2 5 9l14 0-4-7H9zM5 9v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    
+                    <a href="profile.html" class="user-btn active">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </a>
+                    
+                    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Profile Section -->
+    <section class="profile-section section-padding">
+        <div class="container">
+            <div class="profile-layout">
+                <!-- Sidebar -->
+                <aside class="profile-sidebar animate-fade-left">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <span id="avatarInitials">JD</span>
+                        </div>
+                        <h3 id="userName">John Doe</h3>
+                        <p id="userEmail">john.doe@example.com</p>
+                    </div>
+                    
+                    <nav class="profile-nav">
+                        <a href="#dashboard" class="profile-nav-link active" onclick="showSection('dashboard')">
+                            <span>📊</span> Dashboard
+                        </a>
+                        <a href="#orders" class="profile-nav-link" onclick="showSection('orders')">
+                            <span>📦</span> My Orders
+                        </a>
+                        <a href="#addresses" class="profile-nav-link" onclick="showSection('addresses')">
+                            <span>📍</span> Addresses
+                        </a>
+                        <a href="#wishlist" class="profile-nav-link" onclick="showSection('wishlist')">
+                            <span>❤️</span> Wishlist
+                        </a>
+                        <a href="#settings" class="profile-nav-link" onclick="showSection('settings')">
+                            <span>⚙️</span> Settings
+                        </a>
+                        <a href="#" class="profile-nav-link" onclick="handleLogout()">
+                            <span>🚪</span> Logout
+                        </a>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="profile-content">
+                    <!-- Dashboard Section -->
+                    <div id="dashboard-section" class="profile-section-content active animate-fade-up">
+                        <h2>Dashboard</h2>
+                        
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <span class="stat-icon">📦</span>
+                                <div class="stat-info">
+                                    <h3 id="totalOrders">0</h3>
+                                    <p>Total Orders</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-icon">❤️</span>
+                                <div class="stat-info">
+                                    <h3 id="wishlistCount">0</h3>
+                                    <p>Wishlist Items</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-icon">🏠</span>
+                                <div class="stat-info">
+                                    <h3 id="addressCount">0</h3>
+                                    <p>Saved Addresses</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="recent-orders-preview">
+                            <h3>Recent Orders</h3>
+                            <div id="recentOrdersList">
+                                <!-- Recent orders will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Orders Section -->
+                    <div id="orders-section" class="profile-section-content animate-fade-up">
+                        <h2>My Orders</h2>
+                        
+                        <div class="orders-filters">
+                            <button class="filter-btn active" onclick="filterOrders('all')">All Orders</button>
+                            <button class="filter-btn" onclick="filterOrders('delivered')">Delivered</button>
+                            <button class="filter-btn" onclick="filterOrders('processing')">Processing</button>
+                        </div>
+                        
+                        <div id="ordersList" class="orders-list">
+                            <!-- Orders will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Addresses Section -->
+                    <div id="addresses-section" class="profile-section-content animate-fade-up">
+                        <div class="section-header">
+                            <h2>Saved Addresses</h2>
+                            <button class="btn btn-primary" onclick="showAddAddressModal()">Add New Address</button>
+                        </div>
+                        
+                        <div id="addressesList" class="addresses-grid">
+                            <!-- Addresses will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Wishlist Section -->
+                    <div id="wishlist-section" class="profile-section-content animate-fade-up">
+                        <h2>My Wishlist</h2>
+                        
+                        <div id="wishlistGrid" class="products-grid">
+                            <!-- Wishlist items will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Settings Section -->
+                    <div id="settings-section" class="profile-section-content animate-fade-up">
+                        <h2>Account Settings</h2>
+                        
+                        <div class="settings-card">
+                            <h3>Personal Information</h3>
+                            <form id="personalInfoForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="settingsFirstName">First Name</label>
+                                        <input type="text" id="settingsFirstName" value="John">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="settingsLastName">Last Name</label>
+                                        <input type="text" id="settingsLastName" value="Doe">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="settingsEmail">Email</label>
+                                    <input type="email" id="settingsEmail" value="john.doe@example.com" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="settingsPhone">Phone Number</label>
+                                    <input type="tel" id="settingsPhone" value="+91 98765 43210">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Information</button>
+                            </form>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Change Password</h3>
+                            <form id="changePasswordForm">
+                                <div class="form-group">
+                                    <label for="currentPassword">Current Password</label>
+                                    <input type="password" id="currentPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPassword">New Password</label>
+                                    <input type="password" id="newPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmNewPassword">Confirm New Password</label>
+                                    <input type="password" id="confirmNewPassword" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                            </form>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Preferences</h3>
+                            <div class="preferences">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="newsletterPref" checked>
+                                    <span>Receive newsletter and promotional emails</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="smsPref">
+                                    <span>Receive SMS notifications</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Thekua Ba</h3>
+                    <p>Bringing the authentic taste of Bihar to your doorstep. Experience traditional snacks made with love and heritage.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="YouTube">📺</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Our Products</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>📍 Patna, Bihar, India</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ info@thekuaba.com</p>
+                    <p>⏰ Mon-Sat: 9AM-7PM</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Thekua Ba. All rights reserved. Made with ❤️ in Bihar</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Additional CSS for Profile Page -->
+    <style>
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        .profile-sidebar {
+            background: #FCFEFC;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .profile-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .profile-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .profile-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-color);
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+        }
+
+        .profile-nav-link:hover {
+            background: #F5F9F5;
+            color: var(--primary-color);
+        }
+
+        .profile-nav-link.active {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .profile-content {
+            background: #FCFEFC;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            min-height: 600px;
+        }
+
+        .profile-section-content {
+            display: none;
+        }
+
+        .profile-section-content.active {
+            display: block;
+        }
+
+        .profile-section-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        /* Dashboard Stats */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: #F5F9F5;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-info p {
+            color: var(--text-light);
+        }
+
+        /* Orders */
+        .orders-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #E5E7EB;
+            background: white;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--secondary-color);
+        }
+
+        .filter-btn.active {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        .order-card {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .order-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .order-status.delivered {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .order-status.processing {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        /* Addresses */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .addresses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .address-card {
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .address-card.default {
+            border-color: var(--secondary-color);
+        }
+
+        .address-actions {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Settings */
+        .settings-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .settings-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .preferences {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        @media (max-width: 968px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-sidebar {
+                position: static;
+            }
+
+            .profile-nav {
+                flex-direction: row;
+                overflow-x: auto;
+                gap: 0;
+            }
+
+            .profile-nav-link {
+                white-space: nowrap;
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+
+    <!-- JavaScript Files -->
+    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/profile.js"></script>
+</body>
+</html>

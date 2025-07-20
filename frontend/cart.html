@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shopping Cart - Review your selected Bihar traditional snacks before checkout">
+    <title>Shopping Cart - Thekua Ba</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/style.css?v=4">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Force Green Theme -->
+    <style>
+        body { background-color: #F5F9F5; }
+        .header { background: rgba(11, 43, 38, 0.95) !important; }
+        .cart-container { background: #FCFEFC; }
+        .cart-summary { background: #FCFEFC; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="main-header" class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <img src="assets/images/logo.jpg" alt="Thekua Ba Logo">
+                    <span>Thekua Ba</span>
+                </a>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="products.html" class="nav-link">Products</a></li>
+                    <li><a href="track-order.html" class="nav-link">Track Order</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="search-btn" onclick="toggleSearch()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </button>
+
+                    <a href="cart.html" class="cart-btn active">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 2 5 9l14 0-4-7H9zM5 9v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+
+                    <a href="login.html" class="user-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </a>
+
+                    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Cart Page Content -->
+    <section class="cart-page section-padding">
+        <div class="container">
+            <h1 class="page-title">Shopping Cart</h1>
+
+            <div class="cart-layout">
+                <!-- Cart Items -->
+                <div class="cart-items-section">
+                    <div id="cartItemsContainer">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+
+                    <div class="cart-actions">
+                        <a href="products.html" class="btn btn-outline">Continue Shopping</a>
+                        <button class="btn btn-secondary" onclick="clearCart()">Clear Cart</button>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary">
+                    <h3>Order Summary</h3>
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">₹0</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Delivery Charges</span>
+                        <span id="delivery">₹0</span>
+                    </div>
+
+                    <div class="promo-code">
+                        <input type="text" placeholder="Enter promo code" id="promoCode">
+                        <button onclick="applyPromo()">Apply</button>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span id="total">₹0</span>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" onclick="proceedToCheckout(event)">
+                        Proceed to Checkout
+                    </button>
+
+                    <div class="payment-methods">
+                        <p>We Accept:</p>
+                        <div class="payment-icons">
+                            <span>💳</span>
+                            <span>📱</span>
+                            <span>💰</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty Cart Message -->
+            <div class="empty-cart" id="emptyCart" style="display: none;">
+                <div class="empty-cart-content">
+                    <span class="empty-cart-icon">🛒</span>
+                    <h2>Your cart is empty</h2>
+                    <p>Looks like you haven't added any items yet</p>
+                    <a href="products.html" class="btn btn-primary">Start Shopping</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Recently Viewed -->
+    <section class="recently-viewed section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">You May Also Like</h2>
+            <div class="products-grid" id="suggestedProducts">
+                <!-- Suggested products will be loaded here -->
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Thekua Ba</h3>
+                    <p>Bringing the authentic taste of Bihar to your doorstep. Experience traditional snacks made with love and heritage.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="YouTube">📺</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Our Products</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>📍 Patna, Bihar, India</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ info@thekuaba.com</p>
+                    <p>⏰ Mon-Sat: 9AM-7PM</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Thekua Ba. All rights reserved. Made with ❤️ in Bihar</p>
+            </div>
+        </div>
+    </footer>
+    <!-- Additional CSS for Cart Page -->
+    <style>
+        .cart-page {
+            min-height: 60vh;
+            padding-top: 120px;
+        }
+        .page-title {
+            font-family: var(--font-secondary);
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .cart-items-section {
+            background: #FCFEFC;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        .cart-item {
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid #E5E7EB;
+            align-items: center;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .cart-item-image {
+            width: 120px;
+            height: 120px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: #F5F9F5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .cart-item-emoji {
+            font-size: 3rem;
+        }
+        .cart-item-details h3 {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .cart-item-details p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .quantity-btn {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .quantity-btn:hover {
+            background: var(--primary-color);
+            color: var(--accent-color);
+        }
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-sm);
+            padding: 0.25rem;
+        }
+        .cart-item-price {
+            text-align: right;
+        }
+        .item-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .remove-item {
+            background: none;
+            color: #EF4444;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition-fast);
+        }
+        .remove-item:hover {
+            text-decoration: underline;
+        }
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        .cart-summary {
+            background: #FCFEFC;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        .cart-summary h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+        .promo-code {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        .promo-code input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-sm);
+        }
+        .promo-code button {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition-fast);
+        }
+        .promo-code button:hover {
+            background: var(--primary-color);
+            color: var(--accent-color);
+        }
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            padding-top: 1rem;
+            border-top: 2px solid #E5E7EB;
+            margin-bottom: 1.5rem;
+        }
+        .btn-block {
+            width: 100%;
+        }
+        .payment-methods {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #E5E7EB;
+        }
+        .payment-methods p {
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        .payment-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            font-size: 2rem;
+        }
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 0;
+        }
+        .empty-cart-content {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .empty-cart-icon {
+            font-size: 5rem;
+            display: block;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        .empty-cart h2 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .empty-cart p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 968px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+            .cart-summary {
+                position: static;
+                margin-top: 2rem;
+            }
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+                gap: 1rem;
+            }
+            .cart-item-image {
+                width: 80px;
+                height: 80px;
+            }
+            .cart-item-price {
+                grid-column: 2;
+                text-align: left;
+                margin-top: 1rem;
+            }
+        }
+        @media (max-width: 640px) {
+            .cart-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .cart-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+    <!-- JavaScript Files -->
+    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/cart.js"></script>
+</body>
+</html>

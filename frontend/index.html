@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Thekua Ba - Authentic Bihar traditional snacks delivered to your doorstep. Experience the rich heritage of Bihar flavors.">
+    <meta name="keywords" content="thekua, bihar snacks, traditional sweets, khaja, gajja, pidikiya">
+    <title>Thekua Ba - Authentic Bihar Traditional Snacks</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/style.css?v=4">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Force Green Theme Colors -->
+    <style>
+        .header {
+    background: linear-gradient(135deg, rgba(15, 61, 55, 0.95), rgba(10, 40, 35, 0.85)) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+        .logo span {
+            color: #DAF1DE !important;
+        }
+        .nav-link, .search-btn, .cart-btn, .user-btn {
+            color: #DAF1DE !important;
+        }
+        .cart-count {
+            background: #8EB69B !important;
+            color: #0B2B26 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="main-header" class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <img src="assets\images\logo.jpg" alt="Thekua Ba Logo">
+                    <span>Thekua Ba</span>
+                </a>
+                
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="nav-link active">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="products.html" class="nav-link">Products</a></li>
+                    <li><a href="track-order.html" class="nav-link">Track Order</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="search-btn" onclick="toggleSearch()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </button>
+                    
+                    <a href="cart.html" class="cart-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 2 5 9l14 0-4-7H9zM5 9v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    
+                    <a href="login.html" class="user-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </a>
+                    
+                    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Search Bar -->
+        <div class="search-bar" id="searchBar">
+            <div class="search-container">
+                <input type="text" placeholder="Search for delicious Bihar snacks..." id="searchInput">
+                <button onclick="performSearch()">Search</button>
+                <button class="close-search" onclick="toggleSearch()">×</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <video class="hero-video" autoplay muted loop>
+            <source src="assets\videos\Backgroung.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title animate-fade-up" style="color: #DAF1DE;">Welcome to Bihar's Heritage</h1>
+            <p class="hero-subtitle animate-fade-up-delay" style="color: #DAF1DE;">Authentic Traditional Snacks Delivered to Your Doorstep</p>
+            <div class="hero-buttons animate-fade-up-delay-2">
+                <a href="products.html" class="btn btn-primary">Explore Our Snacks</a>
+                <a href="about.html" class="btn btn-secondary">Our Story</a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+  <span>Scroll to explore</span>
+  <div class="scroll-arrow"></div>
+</div>
+
+<style>
+    .hero-scroll {
+    color: #DAF1DE;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: fadeIn 1s ease-in-out;
+    }
+
+    .hero-scroll span {
+    display: block;
+    font-size: 1rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .scroll-arrow {
+    width: 20px;
+    height: 20px;
+    border-left: 3px solid #DAF1DE;
+    border-bottom: 3px solid #DAF1DE;
+    transform: rotate(-45deg);
+    margin: 0 auto;
+    animation: bounce 1.5s infinite;
+    }
+
+/* Animations */
+@keyframes bounce {
+  0%, 100% { transform: rotate(-45deg) translateY(0); }
+  50% { transform: rotate(-45deg) translateY(8px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Bestsellers</h2>
+                <p class="section-subtitle" style="color: white;">Handcrafted with love, delivered fresh</p>
+
+            </div>
+            
+            <div class="products-grid" id="featuredProducts">
+                <!-- Products will be loaded dynamically -->
+            </div>
+            
+            <div class="section-footer">
+                <a href="products.html" class="btn btn-outline">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose section-padding bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title style" style="color: #8EB69B;">Why Choose Thekua Ba?</h2>
+                <p class="section-subtitle">Experience the authentic taste of Bihar</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌾</div>
+                    <h3>100% Natural Ingredients</h3>
+                    <p>We use only the finest natural ingredients sourced directly from local farmers</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🍳</div>
+                    <h3>Traditional Recipes</h3>
+                    <p>Authentic recipes passed down through generations, preserving Bihar's culinary heritage</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Fresh Delivery</h3>
+                    <p>Made fresh to order and delivered within 2-3 days to ensure maximum freshness</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💝</div>
+                    <h3>Handcrafted with Love</h3>
+                    <p>Each product is carefully handcrafted by skilled artisans from Bihar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Testimonials -->
+    <section class="testimonials section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What Our Customers Say</h2>
+                <p class="section-subtitleb" style="color: white;">Real reviews from real customers</p>
+
+            </div>
+            
+            <div class="testimonials-slider" id="testimonialsSlider">
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"The best thekua I've had outside of Bihar! Reminds me of my grandmother's cooking."</p>
+                    <div class="testimonial-author">
+                        <img src="assets\images\customer\customer1.jpg" alt="Customer">
+                        <div>
+                            <h4>Himanshu Pathak</h4>
+                            <span>Delhi</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Authentic taste and excellent packaging. My whole family loved it!"</p>
+                    <div class="testimonial-author">
+                        <img src="assets\images\customer\customer2.jpg" alt="Customer">
+                        <div>
+                            <h4>Sulochan Khadka</h4>
+                            <span>Mumbai</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Perfect for festivals and special occasions. Will definitely order again!"</p>
+                    <div class="testimonial-author">
+                        <img src="assets\images\customer\customer3.jpg" alt="Customer">
+                        <div>
+                            <h4>Prerna Singh</h4>
+                            <span>Bangalore</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter section-padding bg-primary">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Subscribe to Our Newsletter</h2>
+                <p>Get exclusive offers and be the first to know about new products</p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit" class="btn btn-white">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Thekua Ba</h3>
+                    <p>Bringing the authentic taste of Bihar to your doorstep. Experience ~ snacks made with love and heritage.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="YouTube">📺</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Our Products</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>📍 Patna, Bihar, India</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ info@thekuaba.com</p>
+                    <p>⏰ Mon-Sat: 9AM-7PM</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Thekua Ba. All rights reserved. Made with ❤️ in Bihar</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/products.js"></script>
+    <script src="./assets/js/utils.js"></script>
+    <script src="./assets/js/frontend-api.js"></script>
+</body>
+</html>
