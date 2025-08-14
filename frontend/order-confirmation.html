@@ -1,369 +1,636 @@
-<!-- Order Confirmation Section -->
-<section class="confirmation-section section-padding">
-    <div class="container">
-        <div class="confirmation-card animate-fade-up">
-            <div class="confirmation-icon">
-                <div class="success-checkmark">
-                    <div class="check-icon">
-                        <span class="icon-line line-tip"></span>
-                        <span class="icon-line line-long"></span>
-                        <div class="icon-circle"></div>
-                        <div class="icon-fix"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Order Confirmation - Your order has been placed successfully">
+    <title>Order Confirmation - Thekua Ba</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <link rel="stylesheet" href="./assets/css/animations.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Force Green Theme -->
+    <style>
+        body { background-color: #F5F9F5; }
+        .header { background: rgba(11, 43, 38, 0.95) !important; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="main-header" class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <img src="assets/images/logo.jpg" alt="Thekua Ba Logo">
+                    <span>Thekua Ba</span>
+                </a>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="products.html" class="nav-link">Products</a></li>
+                    <li><a href="track-order.html" class="nav-link">Track Order</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="search-btn" onclick="toggleSearch()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </button>
+                    <a href="cart.html" class="cart-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 2 5 9l14 0-4-7H9zM5 9v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9"/>
+                        </svg>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <a href="login.html" class="user-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </a>
+                    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Order Confirmation Content -->
+    <section class="confirmation-page section-padding">
+        <div class="container">
+            <!-- Success Message -->
+            <div class="confirmation-header">
+                <div class="success-icon">✅</div>
+                <h1 class="confirmation-title">Order Confirmed!</h1>
+                <p class="confirmation-subtitle">Thank you for your order. We've received your order and will begin processing it soon.</p>
+            </div>
+
+            <!-- Order Details -->
+            <div class="confirmation-layout">
+                <div class="order-info">
+                    <div class="info-card">
+                        <h2>Order Information</h2>
+                        <div class="order-details">
+                            <div class="detail-row">
+                                <span class="label">Estimated Delivery:</span>
+                                <span class="value" id="deliveryDate">February 5-7, 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h2>Shipping Address</h2>
+                        <div class="address-details" id="shippingAddress">
+                            <p><strong id="customerName">John Doe</strong></p>
+                            <p id="customerAddress">123 Main Street, Apartment 4B</p>
+                            <p id="customerCity">Patna, Bihar 800001</p>
+                            <p id="customerPhone">Phone: +91 98765 43210</p>
+                            <p id="customerEmail">Email: john.doe@example.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-summary">
+                    <div class="info-card">
+                        <h2>Order Summary</h2>
+                        <div id="orderItems">
+                            <!-- Order items will be loaded here -->
+                        </div>
+                        <div class="summary-totals">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="subtotal">₹0</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Shipping</span>
+                                <span id="shipping">₹50</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Tax (GST)</span>
+                                <span id="tax">₹0</span>
+                            </div>
+                            <div class="summary-row total-row">
+                                <span><strong>Total</strong></span>
+                                <span id="total"><strong>₹0</strong></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <h1>Order Confirmed!</h1>
-            <p class="confirmation-message">Thank you for your order. We've received your payment and will start preparing your delicious Bihar snacks right away.</p>
-            
-            <div class="order-details">
-                <h2>Order Details</h2>
-                <div class="order-info-grid">
-                    <div class="info-item">
-                        <span class="label">Order Number:</span>
-                        <span class="value" id="orderNumber">BH123456789</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Order Date:</span>
-                        <span class="value" id="orderDate">-</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Total Amount:</span>
-                        <span class="value" id="totalAmount">₹0</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Expected Delivery:</span>
-                        <span class="value" id="expectedDelivery">-</span>
-                    </div>
-                </div>
-                
-                <div class="order-items" id="orderItemsList">
-                    <!-- Order items will be loaded here -->
-                </div>
-            </div>
-            
+
+            <!-- Action Buttons -->
             <div class="confirmation-actions">
                 <a href="track-order.html" class="btn btn-primary">Track Your Order</a>
-                <a href="products.html" class="btn btn-outline">Continue Shopping</a>
+                <a href="products.html" class="btn btn-secondary">Continue Shopping</a>
+                <button onclick="printOrder()" class="btn btn-outline">Print Order</button>
             </div>
-            
+
+            <!-- What's Next -->
             <div class="next-steps">
-                <h3>What's Next?</h3>
+                <h3>What happens next?</h3>
                 <div class="steps-grid">
                     <div class="step">
-                        <span class="step-icon">📧</span>
-                        <h4>Email Confirmation</h4>
-                        <p>You'll receive an email confirmation with your order details within 5 minutes.</p>
+                        <div class="step-icon">📦</div>
+                        <h4>Order Processing</h4>
+                        <p>We'll prepare your traditional Bihar snacks with care and package them securely.</p>
                     </div>
                     <div class="step">
-                        <span class="step-icon">👨‍🍳</span>
-                        <h4>Preparation</h4>
-                        <p>Our skilled artisans will start preparing your fresh snacks within 24 hours.</p>
+                        <div class="step-icon">🚚</div>
+                        <h4>Shipping</h4>
+                        <p>Your order will be shipped and you'll receive a tracking number via email.</p>
                     </div>
                     <div class="step">
-                        <span class="step-icon">🚚</span>
+                        <div class="step-icon">🏠</div>
                         <h4>Delivery</h4>
-                        <p>Your order will be delivered fresh to your doorstep within 2-3 business days.</p>
+                        <p>Enjoy your authentic Bihar snacks delivered fresh to your doorstep!</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>About Thekua Ba</h3>
-                <p>Bringing the authentic taste of Bihar to your doorstep. Experience traditional snacks made with love and heritage.</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Thekua Ba</h3>
+                    <p>Bringing the authentic taste of Bihar to your doorstep. Experience traditional snacks made with love and heritage.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="YouTube">📺</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Our Products</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>📍 Patna, Bihar, India</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ info@thekuaba.com</p>
+                    <p>⏰ Mon-Sat: 9AM-7PM</p>
+                </div>
             </div>
-            
-            <div class="footer-section">
-                <h3>Customer Service</h3>
-                <p>📞 +91 98765 43210</p>
-                <p>✉️ support@thekuaba.com</p>
-                <p>⏰ Mon-Sat: 9AM-7PM</p>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Thekua Ba. All rights reserved. Made with ❤️ in Bihar</p>
             </div>
         </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2024 Thekua Ba. All rights reserved. Made with ❤️ in Bihar</p>
-        </div>
-    </div>
-</footer>
+    </footer>
 
-<!-- Styles -->
-<style>
-    .confirmation-header {
-        background: rgba(11, 43, 38, 0.95);
-        padding: 1rem 0;
-        margin-bottom: 2rem;
-    }
+    <!-- CSS Styles -->
+    <style>
+        :root {
+            --primary-color: #2F7D44;
+            --secondary-color: #6B7280;
+            --text-light: #6B7280;
+            --font-secondary: 'Playfair Display', serif;
+            --radius-lg: 12px;
+            --radius-sm: 6px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    .confirmation-header .logo {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: #DAF1DE;
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
+        .confirmation-page {
+            min-height: 70vh;
+            padding-top: 120px;
+        }
 
-    .confirmation-section {
-        min-height: 70vh;
-        display: flex;
-        align-items: center;
-    }
+        .confirmation-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
 
-    .confirmation-card {
-        background: #FCFEFC;
-        padding: 3rem;
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(11, 43, 38, 0.1);
-        text-align: center;
-        max-width: 800px;
-        margin: 0 auto;
-    }
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 1s ease-in-out;
+        }
 
-    .confirmation-icon {
-        margin-bottom: 2rem;
-    }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
 
-    .success-checkmark {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        display: block;
-        stroke-width: 3;
-        stroke: #4CAF50;
-        stroke-miterlimit: 10;
-        margin: 0 auto;
-        box-shadow: inset 0px 0px 0px #4CAF50;
-        animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
-        position: relative;
-    }
+        .confirmation-title {
+            font-family: var(--font-secondary);
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
 
-    .success-checkmark .check-icon {
-        width: 56px;
-        height: 56px;
-        position: absolute;
-        left: 12px;
-        top: 12px;
-        z-index: 1;
-        border-radius: 50%;
-        background: #4CAF50;
-    }
+        .confirmation-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-    .check-icon::after {
-        content: '';
-        width: 5px;
-        height: 3px;
-        background-color: transparent;
-        left: 21px;
-        top: 24px;
-        position: absolute;
-        transform: rotate(45deg);
-    }
+        .confirmation-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
 
-    .icon-line {
-        height: 3px;
-        background-color: white;
-        display: block;
-        border-radius: 2px;
-        position: absolute;
-        z-index: 10;
-    }
-
-    .icon-line.line-tip {
-        top: 29px;
-        left: 20px;
-        width: 10px;
-        transform: rotate(45deg);
-        animation: icon-line-tip 0.75s;
-    }
-
-    .icon-line.line-long {
-        top: 35px;
-        right: 16px;
-        width: 18px;
-        transform: rotate(-45deg);
-        animation: icon-line-long 0.75s;
-    }
-
-    @keyframes icon-line-tip {
-        0% { width: 0; left: 1px; top: 19px; }
-        54% { width: 0; left: 1px; top: 19px; }
-        70% { width: 10px; left: 20px; top: 29px; }
-        84% { width: 12px; left: 18px; top: 31px; }
-        100% { width: 10px; left: 20px; top: 29px; }
-    }
-
-    @keyframes icon-line-long {
-        0% { width: 0; right: 46px; top: 54px; }
-        65% { width: 0; right: 46px; top: 54px; }
-        84% { width: 18px; right: 16px; top: 35px; }
-        100% { width: 18px; right: 16px; top: 35px; }
-    }
-
-    .confirmation-card h1 {
-        color: var(--primary-color);
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .confirmation-message {
-        font-size: 1.2rem;
-        color: var(--text-light);
-        margin-bottom: 2rem;
-        line-height: 1.6;
-    }
-
-    .order-details {
-        text-align: left;
-        margin: 2rem 0;
-        padding: 2rem;
-        background: #F5F9F5;
-        border-radius: 15px;
-    }
-
-    .order-details h2 {
-        color: var(--primary-color);
-        margin-bottom: 1.5rem;
-        text-align: center;
-    }
-
-    .order-info-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .info-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.5rem 0;
-        border-bottom: 1px solid #E5E7EB;
-    }
-
-    .label {
-        font-weight: 600;
-        color: var(--primary-color);
-    }
-
-    .value {
-        color: var(--text-color);
-        font-weight: 500;
-    }
-
-    .confirmation-actions {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        margin: 2rem 0;
-        flex-wrap: wrap;
-    }
-
-    .next-steps {
-        margin-top: 3rem;
-        text-align: center;
-    }
-
-    .next-steps h3 {
-        color: var(--primary-color);
-        margin-bottom: 2rem;
-    }
-
-    .steps-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 2rem;
-    }
-
-    .step {
-        padding: 1.5rem;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-
-    .step-icon {
-        font-size: 2rem;
-        display: block;
-        margin-bottom: 1rem;
-    }
-
-    .step h4 {
-        color: var(--primary-color);
-        margin-bottom: 0.5rem;
-    }
-
-    .step p {
-        color: var(--text-light);
-        font-size: 0.9rem;
-        line-height: 1.5;
-    }
-
-    @media (max-width: 768px) {
-        .confirmation-card {
+        .info-card {
+            background: #FCFEFC;
             padding: 2rem;
-            margin: 1rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .value {
+            font-weight: 600;
+            color: #1F2937;
+        }
+
+        .address-details p {
+            margin-bottom: 0.5rem;
+            color: #1F2937;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item-image {
+            margin-right: 1rem;
+            font-size: 2rem;
+        }
+
+        .order-item-details {
+            flex-grow: 1;
+        }
+
+        .order-item-name {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .order-item-quantity {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .order-item-price {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .summary-totals {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .total-row {
+            border-top: 2px solid #ddd;
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+            font-size: 1.1rem;
+            color: #1F2937;
         }
 
         .confirmation-actions {
-            flex-direction: column;
+            text-align: center;
+            margin-bottom: 3rem;
         }
 
-        .confirmation-actions .btn {
-            width: 100%;
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 0 0.5rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-    }
-</style>
 
-<!-- JavaScript -->
-<script src="./assets/js/main.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get order number from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const orderNumber = urlParams.get('order') || 'BH' + Date.now().toString(36).toUpperCase();
-        
-        // Display order information
-        document.getElementById('orderNumber').textContent = orderNumber;
-        document.getElementById('orderDate').textContent = new Date().toLocaleDateString('en-IN');
-        
-        // Calculate expected delivery (3 days from now)
-        const deliveryDate = new Date();
-        deliveryDate.setDate(deliveryDate.getDate() + 3);
-        document.getElementById('expectedDelivery').textContent = deliveryDate.toLocaleDateString('en-IN');
-        
-        // Load order from localStorage if available
-        const orders = JSON.parse(localStorage.getItem('thekuaOrders')) || [];
-        const currentOrder = orders.find(order => order.orderNumber === orderNumber);
-        
-        if (currentOrder) {
-            document.getElementById('totalAmount').textContent = currentOrder.total;
-            displayOrderItems(currentOrder.items);
-        } else {
-            // Fallback if order not found
-            document.getElementById('totalAmount').textContent = '₹520';
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
         }
-    });
 
-    function displayOrderItems(items) {
-        const container = document.getElementById('orderItemsList');
-        if (!items || items.length === 0) return;
-        
-        container.innerHTML = `
-            <h4 style="color: var(--primary-color); margin-bottom: 1rem;">Items Ordered:</h4>
-            ${items.map(item => `
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #E5E7EB;">
-                    <span>${item.name} x ${item.quantity}</span>
-                    <span>₹${item.price * item.quantity}</span>
-                </div>
-            `).join('')}
-        `;
-    }
-</script>
+        .btn-primary:hover {
+            background-color: #245a33;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4B5563;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .next-steps {
+            background: #FCFEFC;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .next-steps h3 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .step h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .step p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 968px) {
+            .confirmation-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .confirmation-title {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                display: block;
+                margin: 0.5rem auto;
+                max-width: 200px;
+            }
+            
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .confirmation-header {
+                margin-bottom: 2rem;
+            }
+            
+            .info-card {
+                padding: 1.5rem;
+            }
+            
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+        }
+    </style>
+
+    <script>
+        // Load order data on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            loadOrderData();
+        });
+
+        function loadOrderData() {
+            // Get order data from localStorage
+            const orderData = localStorage.getItem('currentOrder');
+            
+            if (orderData) {
+                const order = JSON.parse(orderData);
+                populateOrderDetails(order);
+            } else {
+                // If no order data, use sample data for demonstration
+                const sampleOrder = {
+                    orderId: 'THK' + Date.now(),
+                    orderDate: new Date().toISOString(),
+                    customer: {
+                        firstName: 'John',
+                        lastName: 'Doe',
+                        email: 'john.doe@example.com',
+                        phone: '+91 98765 43210',
+                        address: {
+                            street: '123 Main Street',
+                            apartment: 'Apartment 4B',
+                            city: 'Patna',
+                            state: 'Bihar',
+                            pincode: '800001'
+                        }
+                    },
+                    items: [
+                        { id: 1, name: 'Traditional Thekua', price: 150, quantity: 2, image: '🍪' },
+                        { id: 2, name: 'Khaja Special', price: 200, quantity: 1, image: '🥨' }
+                    ],
+                    shipping: {
+                        method: 'standard',
+                        cost: 50
+                    },
+                    payment: {
+                        method: 'cod'
+                    },
+                    totals: {
+                        subtotal: 500,
+                        shipping: 50,
+                        tax: 90,
+                        total: 640
+                    }
+                };
+                populateOrderDetails(sampleOrder);
+            }
+        }
+
+        function populateOrderDetails(order) {
+            // Populate order information
+            document.getElementById('orderNumber').textContent = '#' + order.orderId;
+            
+            const orderDate = new Date(order.orderDate);
+            document.getElementById('orderDate').textContent = orderDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Calculate estimated delivery (5-7 days from order date)
+            const deliveryStart = new Date(orderDate);
+            const deliveryEnd = new Date(orderDate);
+            deliveryStart.setDate(deliveryStart.getDate() + 5);
+            deliveryEnd.setDate(deliveryEnd.getDate() + 7);
+            
+            document.getElementById('deliveryDate').textContent = 
+                deliveryStart.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) + 
+                '-' + 
+                deliveryEnd.toLocaleDateString('en-US', { day: 'numeric' }) + 
+                ', ' + deliveryEnd.getFullYear();
+
+            // Payment method formatting
+            const paymentMethods = {
+                'cod': 'Cash on Delivery',
+                'card': 'Credit/Debit Card',
+                'upi': 'UPI Payment'
+            };
+            document.getElementById('paymentMethod').textContent = paymentMethods[order.payment.method] || 'Cash on Delivery';
+
+            // Populate shipping address
+            document.getElementById('customerName').textContent = order.customer.firstName + ' ' + order.customer.lastName;
+            document.getElementById('customerAddress').textContent = order.customer.address.street + 
+                (order.customer.address.apartment ? ', ' + order.customer.address.apartment : '');
+            document.getElementById('customerCity').textContent = 
+                order.customer.address.city + ', ' + order.customer.address.state + ' ' + order.customer.address.pincode;
+            document.getElementById('customerPhone').textContent = 'Phone: ' + order.customer.phone;
+            document.getElementById('customerEmail').textContent = 'Email: ' + order.customer.email;
+
+            // Populate order items
+            const orderItemsContainer = document.getElementById('orderItems');
+            let itemsHTML = '';
+            
+            order.items.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                itemsHTML += `
+                    <div class="order-item">
+                        <div class="order-item-image">${item.image}</div>
+                        <div class="order-item-details">
+                            <div class="order-item-name">${item.name}</div>
+                            <div class="order-item-quantity">Quantity: ${item.quantity}</div>
+                        </div>
+                        <div class="order-item-price">₹${itemTotal}</div>
+                    </div>
+                `;
+            });
+            
+            orderItemsContainer.innerHTML = itemsHTML;
+
+            // Populate totals
+            document.getElementById('subtotal').textContent = '₹' + order.totals.subtotal;
+            document.getElementById('shipping').textContent = '₹' + order.totals.shipping;
+            document.getElementById('tax').textContent = '₹' + order.totals.tax;
+            document.getElementById('total').textContent = '₹' + order.totals.total;
+        }
+
+        function printOrder() {
+            window.print();
+        }
+
+        function toggleSearch() {
+            console.log('Search toggled');
+        }
+
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+    </script>
+
+    <!-- JavaScript Files -->
+    <script src="./assets/js/config.js"></script>
+    <script src="./assets/js/utils.js"></script>
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>
+                                <span class="label">Order Number:</span>
+                                <span class="value" id="orderNumber">#THK12345</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Order Date:</span>
+                                <span class="value" id="orderDate">January 31, 2025</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Payment Method:</span>
+                                <span class="value" id="paymentMethod">Cash on Delivery</span>
+                            </div>
+                            <div class="detail-row">
