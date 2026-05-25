@@ -1,4 +1,4 @@
-const API_BASE_URL = window.APP_CONFIG ? window.APP_CONFIG.API_BASE_URL : 'http://localhost:5000/api';
+const API_BASE_URL = window.APP_CONFIG ? window.APP_CONFIG.API_BASE_URL : (window.location.origin + '/api');
 // Global variables for filtering and sorting
 let allProducts = [];
 let filteredProducts = [];
