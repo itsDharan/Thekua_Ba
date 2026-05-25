@@ -5,5 +5,12 @@ uploads/*.png
 uploads/*.jpeg
 uploads/*.gif
 uploads/*.webp
+*.png
+*.jpg
+!frontend/assets/images/**
+!frontend/assets/images/customer/**
+uploads/*.jpeg
+uploads/*.gif
+uploads/*.webp
 .DS_Store
 *.log

@@ -279,7 +279,7 @@ async function loadSuggestedProducts() {
 
             suggestedContainer.innerHTML = suggestions.map(product => {
                 const productImage = product.images && product.images.length > 0 ?
-                    `${window.location.origin}${product.images[0].url}` : null;
+                    `${product.images[0].url.startsWith('http') ? product.images[0].url : window.location.origin + product.images[0].url}` : null;
 
                 return `
                     <div class="product-card animate-fade-up">
@@ -344,7 +344,7 @@ async function addToCartFromSuggestion(productId) {
                     price: product.price,
                     emoji: product.emoji,
                     image: product.images && product.images.length > 0 ?
-                        `${window.location.origin}${product.images[0].url}` : null,
+                        `${product.images[0].url.startsWith('http') ? product.images[0].url : window.location.origin + product.images[0].url}` : null,
                     quantity: 1
                 });
             }

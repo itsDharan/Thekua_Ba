@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
+const { v2: cloudinary } = require('cloudinary');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 require('dotenv').config();
 
 const app = express();
@@ -22,13 +24,20 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/thekuaba'
     .then(() => console.log('✅ Connected to MongoDB'))
     .catch(err => console.error('❌ MongoDB connection error:', err.message));
 
-// File upload configuration
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname))
+// Cloudinary Configuration
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// File upload configuration (Cloudinary)
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'thekuaba-products',
+        allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+        transformation: [{ width: 800, height: 800, crop: 'limit', quality: 'auto' }]
     }
 });
 
@@ -312,7 +321,7 @@ app.post('/api/admin/products', authenticateAdmin, upload.array('images', 5), as
         const { name, description, price, emoji, category, bestseller, stock } = req.body;
         
         const images = req.files ? req.files.map(file => ({
-            url: `/uploads/${file.filename}`,
+            url: file.path,
             filename: file.filename
         })) : [];
 
@@ -352,7 +361,7 @@ app.put('/api/admin/products/:id', authenticateAdmin, upload.array('images', 5),
 
         if (req.files && req.files.length > 0) {
             updateData.images = req.files.map(file => ({
-                url: `/uploads/${file.filename}`,
+                url: file.path,
                 filename: file.filename
             }));
         }

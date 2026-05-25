@@ -81,7 +81,7 @@ function loadAllProducts() {
         productCard.className = 'product-card animate-fade-up';
 
         const productImage = product.images && product.images.length > 0 ?
-            `${API_BASE_URL.replace('/api', '')}${product.images[0].url}` : null;
+            `${product.images[0].url.startsWith('http') ? product.images[0].url : API_BASE_URL.replace('/api', '') + product.images[0].url}` : null;
 
         productCard.innerHTML = `
             <div class="product-image">
@@ -169,7 +169,7 @@ async function addToCartFromProducts(productId, event) {
                     price: product.price,
                     emoji: product.emoji,
                     image: product.images && product.images.length > 0 ?
-                        `${API_BASE_URL.replace('/api', '')}${product.images[0].url}` : null,
+                        `${product.images[0].url.startsWith('http') ? product.images[0].url : API_BASE_URL.replace('/api', '') + product.images[0].url}` : null,
                     quantity: 1
                 });
                 showNotification(`${product.name} added to cart!`, 'success');
@@ -223,7 +223,7 @@ async function openQuickView(productId) {
     if (descEl) descEl.textContent = product.description;
     if (priceEl) priceEl.textContent = `₹${product.price}`;
     const productImage = product.images && product.images.length > 0 ?
-        `${API_BASE_URL.replace('/api', '')}${product.images[0].url}` : null;
+        `${product.images[0].url.startsWith('http') ? product.images[0].url : API_BASE_URL.replace('/api', '') + product.images[0].url}` : null;
     if (productImage && imageEl) {
         imageEl.src = productImage;
         imageEl.style.display = 'block';
@@ -521,7 +521,7 @@ function loadMoreProducts() {
             productCard.className = 'product-card animate-fade-up';
 
             const productImage = product.images && product.images.length > 0 ?
-                `${API_BASE_URL.replace('/api', '')}${product.images[0].url}` : null;
+                `${product.images[0].url.startsWith('http') ? product.images[0].url : API_BASE_URL.replace('/api', '') + product.images[0].url}` : null;
 
             productCard.innerHTML = `
                 <div class="product-image">
@@ -580,7 +580,7 @@ function addToWishlist(productId, event) {
         price: product.price,
         emoji: product.emoji,
         image: product.images && product.images.length > 0 ?
-            `${API_BASE_URL.replace('/api', '')}${product.images[0].url}` : null
+            `${product.images[0].url.startsWith('http') ? product.images[0].url : API_BASE_URL.replace('/api', '') + product.images[0].url}` : null
     });
 
     localStorage.setItem('thekuaWishlist', JSON.stringify(wishlist));

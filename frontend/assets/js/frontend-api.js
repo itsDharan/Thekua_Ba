@@ -207,7 +207,7 @@ async function loadProductsFromAPI() {
                 <div class="product-card">
                     <div class="product-image">
                         ${product.images && product.images.length > 0 ? 
-                            `<img src="${API_BASE_URL.replace('/api', '')}${product.images[0].url}" alt="${product.name}">` : 
+                            `<img src="${product.images[0].url.startsWith('http') ? product.images[0].url : API_BASE_URL.replace('/api', '') + product.images[0].url}" alt="${product.name}">` : 
                             `<div class="product-emoji">${product.emoji}</div>`
                         }
                     </div>
