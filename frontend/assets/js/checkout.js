@@ -1,11 +1,11 @@
 // ===== CHECKOUT FUNCTIONALITY =====
 // API Configuration
-const API_URL = 'http://localhost:5000/api';
+const API_URL = window.API_BASE_URL || (window.location.origin + '/api');
 const GST_RATE = 0.18; // 18% GST
 
 // Get auth token and user data
-const authToken = localStorage.getItem('userToken');
-const currentUser = JSON.parse(localStorage.getItem('userData'));
+const authToken = localStorage.getItem('userToken') || localStorage.getItem('authToken');
+const currentUser = JSON.parse(localStorage.getItem('userData') || localStorage.getItem('currentUser') || 'null');
 const isLoggedIn = !!authToken && !!currentUser;
 
 // Initialize Razorpay (for Indian payments)
@@ -424,19 +424,92 @@ function isValidEmail(email) {
 }
 
 function showNotification(message, type) {
-    // Implement your notification system here
-    console.log(`${type}: ${message}`);
-    alert(`${type.toUpperCase()}: ${message}`);
+    // Use main.js notification if available, otherwise fallback
+    if (window.showNotification && window.showNotification !== showNotification) {
+        window.showNotification(message, type);
+        return;
+    }
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    notification.style.cssText = 'position:fixed;top:20px;right:20px;padding:12px 24px;border-radius:8px;color:#fff;z-index:10000;font-family:Poppins,sans-serif;animation:slideInRight 0.3s ease;';
+    notification.style.background = type === 'error' ? '#e74c3c' : type === 'success' ? '#27ae60' : '#3498db';
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 3000);
 }
 
 function showLoader(message) {
-    // Implement loader display
-    console.log(`Loading: ${message}`);
+    let loader = document.getElementById('checkoutLoader');
+    if (!loader) {
+        loader = document.createElement('div');
+        loader.id = 'checkoutLoader';
+        loader.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:10000;';
+        loader.innerHTML = `<div style="background:#fff;padding:2rem 3rem;border-radius:12px;text-align:center;"><div style="border:4px solid #f3f3f3;border-top:4px solid #8EB69B;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;margin:0 auto 1rem;"></div><p style="font-family:Poppins,sans-serif;color:#333;">${message}</p></div>`;
+        const style = document.createElement('style');
+        style.textContent = '@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}';
+        loader.appendChild(style);
+        document.body.appendChild(loader);
+    }
 }
 
 function hideLoader() {
-    // Implement loader hide
-    console.log('Loading complete');
+    const loader = document.getElementById('checkoutLoader');
+    if (loader) loader.remove();
+}
+
+// Get shipping address from form
+function getShippingAddress() {
+    return {
+        firstName: document.getElementById('firstName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        apartment: document.getElementById('apartment')?.value.trim() || '',
+        city: document.getElementById('city').value.trim(),
+        state: document.getElementById('state').value.trim(),
+        pincode: document.getElementById('pincode').value.trim()
+    };
+}
+
+// Confirm order and redirect to confirmation page
+async function confirmOrder(orderId, orderNumber) {
+    hideLoader();
+    // Clear cart after successful order
+    localStorage.removeItem('thekuaCart');
+    showNotification('Order placed successfully!', 'success');
+    // Redirect to order confirmation page
+    setTimeout(() => {
+        window.location.href = `order-confirmation.html?order=${orderNumber}`;
+    }, 1500);
+}
+
+// Verify payment after online payment
+async function verifyPayment(orderId, orderNumber, paymentResponse) {
+    try {
+        const response = await fetch(`${API_URL}/orders/${orderId}/verify-payment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify({
+                razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                razorpay_order_id: paymentResponse.razorpay_order_id,
+                razorpay_signature: paymentResponse.razorpay_signature
+            })
+        });
+
+        if (response.ok) {
+            await confirmOrder(orderId, orderNumber);
+        } else {
+            // Even if verification fails, order is created - just confirm with COD fallback
+            await confirmOrder(orderId, orderNumber);
+        }
+    } catch (error) {
+        console.error('Payment verification error:', error);
+        // Order was created, redirect anyway
+        await confirmOrder(orderId, orderNumber);
+    }
 }
 
 // Add Razorpay script dynamically

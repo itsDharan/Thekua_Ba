@@ -1,7 +1,7 @@
 // frontend-api.js - Add this to your frontend to integrate with backend
 
 // API Configuration
-const API_BASE_URL = 'http://localhost:5000/api';
+if (typeof API_BASE_URL === 'undefined') { var API_BASE_URL = window.location.origin + '/api'; }
 
 // Update the existing main.js to use API
 class ThekuaAPI {

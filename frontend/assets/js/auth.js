@@ -6,7 +6,7 @@ document.getElementById('registerForm').addEventListener('submit', handleRegiste
 document.getElementById('forgotForm').addEventListener('submit', handleForgotPassword);
 
 // Handle login
-function handleLogin(e) {
+async function handleLogin(e) {
     e.preventDefault();
     
     const email = document.getElementById('email').value;
@@ -30,18 +30,54 @@ function handleLogin(e) {
     submitBtn.textContent = 'Logging in...';
     submitBtn.disabled = true;
     
-    // Simulate API call
-    setTimeout(() => {
-        // In real app, this would be an API call
-        login(email, password);
+    // Call real API for login
+    try {
+        const API_URL = window.API_BASE_URL || (window.APP_CONFIG ? window.APP_CONFIG.API_BASE_URL : (window.location.origin + '/api'));
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
         
-        if (remember) {
-            localStorage.setItem('rememberedEmail', email);
+        const data = await response.json();
+        
+        if (response.ok) {
+            // Store auth data for checkout.js compatibility
+            localStorage.setItem('userToken', data.token);
+            localStorage.setItem('userData', JSON.stringify(data.user));
+            // Also store for main.js compatibility
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('currentUser', JSON.stringify(data.user));
+            localStorage.setItem('authToken', data.token);
+            
+            if (remember) {
+                localStorage.setItem('rememberedEmail', email);
+            }
+            
+            if (typeof showNotification === 'function') {
+                showNotification('Login successful!', 'success');
+            }
+            
+            // Redirect after login
+            setTimeout(() => {
+                const redirectUrl = sessionStorage.getItem('redirectAfterLogin') || 'index.html';
+                sessionStorage.removeItem('redirectAfterLogin');
+                window.location.href = redirectUrl;
+            }, 1000);
+        } else {
+            if (typeof showNotification === 'function') {
+                showNotification(data.error || 'Invalid email or password', 'error');
+            }
         }
-        
+    } catch (error) {
+        console.error('Login error:', error);
+        if (typeof showNotification === 'function') {
+            showNotification('Unable to connect to server. Please try again.', 'error');
+        }
+    } finally {
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-    }, 1500);
+    }
 }
 
 // Handle registration

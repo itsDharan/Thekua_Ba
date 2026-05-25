@@ -94,7 +94,7 @@ function loadAllProducts() {
                 </div>
                 ${product.bestseller ? '<span class="product-badge">Bestseller</span>' : ''}
                 <div class="product-actions">
-                    <button class="action-btn" onclick="addToWishlist('${product._id}')" title="Add to Wishlist">
+                    <button class="action-btn" onclick="addToWishlist('${product._id}', event)" title="Add to Wishlist">
                         ❤️
                     </button>
                     <button class="action-btn" onclick="openQuickView('${product._id}')" title="Quick View">
@@ -110,7 +110,7 @@ function loadAllProducts() {
                 <p class="product-description">${product.description}</p>
                 <div class="product-footer">
                     <span class="product-price">₹${product.price}</span>
-                    <button class="add-to-cart" onclick="addToCartFromProducts('${product._id}')">
+                    <button class="add-to-cart" onclick="addToCartFromProducts('${product._id}', event)">
                         Add to Cart
                     </button>
                 </div>
@@ -136,7 +136,7 @@ function showNoProductsMessage(message) {
 }
 
 // Add to cart from products page
-async function addToCartFromProducts(productId) {
+async function addToCartFromProducts(productId, event) {
     // Use the global addToCart function from main.js if available
     if (typeof addToCart === 'function') {
         await addToCart(productId);
@@ -534,7 +534,7 @@ function loadMoreProducts() {
                     </div>
                     ${product.bestseller ? '<span class="product-badge">Bestseller</span>' : ''}
                     <div class="product-actions">
-                        <button class="action-btn" onclick="addToWishlist('${product._id}')" title="Add to Wishlist">
+                        <button class="action-btn" onclick="addToWishlist('${product._id}', event)" title="Add to Wishlist">
                             ❤️
                         </button>
                         <button class="action-btn" onclick="openQuickView('${product._id}')" title="Quick View">
@@ -550,7 +550,7 @@ function loadMoreProducts() {
                     <p class="product-description">${product.description}</p>
                     <div class="product-footer">
                         <span class="product-price">₹${product.price}</span>
-                        <button class="add-to-cart" onclick="addToCartFromProducts('${product._id}')">
+                        <button class="add-to-cart" onclick="addToCartFromProducts('${product._id}', event)">
                             Add to Cart
                         </button>
                     </div>
@@ -562,7 +562,7 @@ function loadMoreProducts() {
     }
 }
 
-function addToWishlist(productId) {
+function addToWishlist(productId, event) {
     const product = allProducts.find(p => p._id === productId);
     if (!product) return;
     let wishlist = JSON.parse(localStorage.getItem('thekuaWishlist')) || [];

@@ -266,7 +266,8 @@ async function loadSuggestedProducts() {
     if (!suggestedContainer) return;
 
     try {
-        const response = await fetch('your_api_endpoint_here/products?limit=4');
+        const API = window.API_BASE_URL || (window.location.origin + '/api');
+        const response = await fetch(`${API}/products?limit=4`);
         const data = await response.json();
 
         if (response.ok && data.products) {
@@ -278,7 +279,7 @@ async function loadSuggestedProducts() {
 
             suggestedContainer.innerHTML = suggestions.map(product => {
                 const productImage = product.images && product.images.length > 0 ?
-                    `your_api_endpoint_here${product.images[0].url}` : null;
+                    `${window.location.origin}${product.images[0].url}` : null;
 
                 return `
                     <div class="product-card animate-fade-up">
@@ -318,7 +319,8 @@ async function addToCartFromSuggestion(productId) {
         await addToCart(productId);
     } else {
         try {
-            const response = await fetch(`your_api_endpoint_here/products/${productId}`);
+            const API = window.API_BASE_URL || (window.location.origin + '/api');
+            const response = await fetch(`${API}/products/${productId}`);
             const product = await response.json();
 
             if (!response.ok || !product) {
@@ -342,7 +344,7 @@ async function addToCartFromSuggestion(productId) {
                     price: product.price,
                     emoji: product.emoji,
                     image: product.images && product.images.length > 0 ?
-                        `your_api_endpoint_here${product.images[0].url}` : null,
+                        `${window.location.origin}${product.images[0].url}` : null,
                     quantity: 1
                 });
             }

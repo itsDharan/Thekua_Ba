@@ -12,10 +12,15 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/thekuaba');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/thekuaba')
+    .then(() => console.log('✅ Connected to MongoDB'))
+    .catch(err => console.error('❌ MongoDB connection error:', err.message));
 
 // File upload configuration
 const storage = multer.diskStorage({
@@ -604,10 +609,61 @@ app.post('/api/admin/create', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+// ===== ONE-TIME SEED ENDPOINT (for cloud deployment) =====
+app.get('/api/seed', async (req, res) => {
+    try {
+        const existingProducts = await Product.countDocuments();
+        if (existingProducts > 0) {
+            return res.json({ message: `Database already has ${existingProducts} products. Skipping seed.` });
+        }
+
+        // Create admin user
+        const adminPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 10);
+        const admin = new User({
+            firstName: 'Admin', lastName: 'User',
+            email: process.env.ADMIN_EMAIL || 'admin@thekuaba.com',
+            password: adminPassword, role: 'admin', phone: '+91 98765 43210'
+        });
+        await admin.save();
+
+        // Create sample customers
+        const customerPassword = await bcrypt.hash('customer123', 10);
+        const customers = [
+            { firstName: 'Rajesh', lastName: 'Kumar', email: 'rajesh@example.com', password: customerPassword, phone: '+91 98765 43211', role: 'customer' },
+            { firstName: 'Priya', lastName: 'Sharma', email: 'priya@example.com', password: customerPassword, phone: '+91 98765 43212', role: 'customer' },
+            { firstName: 'Amit', lastName: 'Singh', email: 'amit@example.com', password: customerPassword, phone: '+91 98765 43213', role: 'customer' }
+        ];
+        for (const c of customers) { await new User(c).save(); }
+
+        // Create products
+        const products = [
+            { name: 'Traditional Thekua', description: 'Classic sweet made with wheat flour, jaggery, and ghee. A traditional Bihar delicacy perfect for festivals.', price: 180, emoji: '🍪', category: 'sweet', bestseller: true, stock: 100 },
+            { name: 'Coconut Thekua', description: 'Thekua enriched with fresh coconut and cardamom. A tropical twist on the classic recipe.', price: 220, emoji: '🥥', category: 'sweet', bestseller: true, stock: 80 },
+            { name: 'Sesame Thekua', description: 'Crunchy thekua with roasted sesame seeds for extra flavor and nutrition.', price: 200, emoji: '🌱', category: 'sweet', bestseller: false, stock: 60 },
+            { name: 'Jaggery Thekua', description: 'Pure jaggery thekua with authentic Bihar taste. Made with organic jaggery.', price: 190, emoji: '🍯', category: 'sweet', bestseller: true, stock: 90 },
+            { name: 'Millet Thekua', description: 'Healthy thekua made with nutritious millet flour. Perfect for health-conscious sweet lovers.', price: 240, emoji: '🌾', category: 'sweet', bestseller: false, stock: 50 },
+            { name: 'Crispy Khaja', description: 'Layered sweet pastry with sugar syrup. A delicate and flaky traditional sweet from Bihar.', price: 160, emoji: '🥐', category: 'sweet', bestseller: true, stock: 70 },
+            { name: 'Sweet Gajja', description: 'Traditional sweet made with milk and sugar. Rich, creamy, and absolutely delicious.', price: 200, emoji: '🍬', category: 'sweet', bestseller: false, stock: 40 },
+            { name: 'Crunchy Pidikiya', description: 'Savory snack perfect with tea. A crunchy treat that pairs perfectly with evening chai.', price: 140, emoji: '🥨', category: 'savory', bestseller: true, stock: 120 },
+            { name: 'Spiced Mathri', description: 'Crispy savory biscuits with traditional spices. Perfect tea-time snack.', price: 160, emoji: '🍘', category: 'savory', bestseller: false, stock: 80 },
+            { name: 'Bihar Special Mix', description: 'A delightful mix of various traditional Bihar snacks. Perfect for gifting.', price: 300, emoji: '🎁', category: 'sweet', bestseller: true, stock: 30 }
+        ];
+        for (const p of products) { await new Product(p).save(); }
+
+        res.json({ message: '🎉 Database seeded successfully!', products: products.length, users: customers.length + 1 });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// ===== CATCH-ALL: Serve frontend for non-API routes =====
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
 
 module.exports = app;
