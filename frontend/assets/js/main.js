@@ -68,7 +68,7 @@ async function loadFeaturedProducts() {
                 <div class="product-card animate-fade-up">
                     <div class="product-image">
                         ${product.images && product.images.length > 0 ? 
-                            `<img src="${API_BASE_URL.replace('/api', '')}${product.images[0].url}" alt="${product.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : 
+                            `<img src="${product.images[0].url.startsWith('http') ? product.images[0].url : API_BASE_URL.replace('/api', '') + product.images[0].url}" alt="${product.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : 
                             ''
                         }
                         <div class="product-emoji" ${product.images && product.images.length > 0 ? 'style="display:none;"' : ''}>
@@ -120,7 +120,7 @@ async function addToCart(productId) {
                 price: product.price,
                 emoji: product.emoji,
                 image: product.images && product.images.length > 0 ? 
-                    `${API_BASE_URL.replace('/api', '')}${product.images[0].url}` : null,
+                    `${product.images[0].url.startsWith('http') ? product.images[0].url : API_BASE_URL.replace('/api', '') + product.images[0].url}` : null,
                 quantity: 1
             });
         }
@@ -250,6 +250,9 @@ function logout() {
     
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('authToken');
     
     showNotification('Logged out successfully!', 'success');
     
@@ -305,15 +308,17 @@ function setupEventListeners() {
     let lastScroll = 0;
     window.addEventListener('scroll', function() {
         const header = document.querySelector('.header');
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
+        if (header) {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            lastScroll = currentScroll;
         }
-        
-        lastScroll = currentScroll;
     });
 }
 

@@ -27,7 +27,7 @@
         <nav class="navbar">
             <div class="nav-container">
                 <a href="index.html" class="logo">
-                    <img src="assets\images\logo.jpg" alt="Thekua Ba Logo">
+                    <img src="assets/images/logo.jpg" alt="Thekua Ba Logo">
                     <span>Thekua Ba</span>
                 </a>
                 
@@ -98,12 +98,12 @@
                     <p>2024 में बनल ई कंपनी के मकसद रहल बिहार के समृद्ध खानपान परंपरा के बचावे आ बढ़ावे के। हर चीज़ जे हम बनाइलीं, उहे पुरनका तरीका से बनावल जाला, आउर ओह में इस्तेमाल होखे वाला सारा सामान सीधे बिहार के किसान लोग से लिहल जाला।</p>
                     <p>जेकरा के एक जमाना में खाली परिवार में बनावल जात रहल, उ अब पूरा देश में बिहार के असली स्वाद पहुँचावे वाला एगो अभियान बन गइल बा। हमनी के मानेनी कि खाना खाली स्वादे ना होला, बल्कि उ कहानी, याद, आ ओह प्यार के भी हिस्सा हवे, जे रसोई में घुलल मिलल रहेला।</p>
                 </div>
-                <div class="story-image animate-fade-up-delay">
-                    <img src="assets\images\about\heritage.png" alt="Bihar Heritage" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-image" style="display:none;">
-                        <span>🏛️</span>
-                        <p>Our Heritage</p>
-                    </div>
+                <div class="story-image animate-fade-up-delay" id="storyImageSlider">
+                    <img src="assets/images/about/heritage.png" alt="Bihar Heritage" class="story-slide active">
+                    <img src="assets/images/about/Gemini_Generated_Image_se8c8se8c8se8c8s.png" alt="Traditional Making" class="story-slide">
+                    <img src="assets/images/about/Gemini_Generated_Image_tyd5bjtyd5bjtyd5.png" alt="Traditional Thekua" class="story-slide">
+                    <img src="assets/images/about/Gemini_Generated_Image_x3mt6ax3mt6ax3mt.png" alt="Crispy Khaja" class="story-slide">
+                    <img src="assets/images/about/Gemini_Generated_Image_mk300gmk300gmk30.png" alt="Sweet Gajja" class="story-slide">
                 </div>
             </div>
         </div>
@@ -202,32 +202,32 @@
             <div class="team-grid">
                 <div class="team-member animate-fade-up">
                     <div class="member-image">
-                        <img src="assets\images\about\Aporve.jpg" alt="Founder" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <img src="assets/images/about/Aporve.jpg" alt="Founder" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <div class="member-placeholder" style="display:none;">👨‍💼</div>
                     </div>
                     <h3>Apoorva Baibhava</h3>
-                    <p class="member-role">Founder & CEO</p>
+                    <p class="member-role">Co-Founder & CEO</p>
                     <p class="member-bio">Born and raised in Patna, bringing 20 years of experience in traditional Bihar cuisine.</p>
                 </div>
                 
                 
                 <div class="team-member animate-fade-up">
                     <div class="member-image">
-                        <img src="assets\images\about\Prashant.jpg" alt="Operations Head" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <img src="assets/images/about/Prashant.jpg" alt="Operations Head" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <div class="member-placeholder" style="display:none;">👨‍💻</div>
                     </div>
                     <h3>Prashant Kishore</h3>
-                    <p class="member-role">Operations Head</p>
+                    <p class="member-role">Co-Founder & Operations Head</p>
                     <p class="member-bio">Ensuring smooth operations and timely delivery of fresh products nationwide.</p>
                 </div>
                 
                 <div class="team-member animate-fade-up">
                     <div class="member-image">
-                        <img src="assets\images\about\Murli.png" alt="Quality Manager" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <img src="assets/images/about/Murli.png" alt="Quality Manager" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <div class="member-placeholder" style="display:none;">👩‍🔬</div>
                     </div>
                     <h3>Murli Dharan</h3>
-                    <p class="member-role">Quality Manager</p>
+                    <p class="member-role">Co-Founder & Quality Manager</p>
                     <p class="member-bio">Maintaining highest standards of quality and hygiene in production.</p>
                 </div>
 
@@ -565,6 +565,38 @@
             }
         }
     </style>
+
+    <style>
+        .story-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .story-slide.active {
+            opacity: 1;
+        }
+        .story-image {
+            position: relative;
+            height: 400px;
+        }
+    </style>
+    <script>
+        (function() {
+            const slides = document.querySelectorAll('.story-slide');
+            if (slides.length === 0) return;
+            let current = 0;
+            setInterval(() => {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }, 3000);
+        })();
+    </script>
 
     <!-- JavaScript Files -->
     <script src="./assets/js/config.js"></script>

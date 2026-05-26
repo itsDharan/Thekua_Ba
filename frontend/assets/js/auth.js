@@ -81,24 +81,30 @@ async function handleLogin(e) {
 }
 
 // Handle registration
-function handleRegister(e) {
+async function handleRegister(e) {
     e.preventDefault();
     
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     
+    const firstName = data.firstName;
+    const lastName = data.lastName;
+    const email = data.email;
+    const phone = data.phone;
+    const password = data.password;
+    
     // Validation
-    if (!validateEmail(data.email)) {
+    if (!validateEmail(email)) {
         showNotification('Please enter a valid email address', 'error');
         return;
     }
     
-    if (!validatePhone(data.phone)) {
+    if (!validatePhone(phone)) {
         showNotification('Please enter a valid phone number', 'error');
         return;
     }
     
-    if (data.password.length < 6) {
+    if (password.length < 6) {
         showNotification('Password must be at least 6 characters', 'error');
         return;
     }
@@ -119,18 +125,39 @@ function handleRegister(e) {
     submitBtn.textContent = 'Creating account...';
     submitBtn.disabled = true;
     
-    // Simulate API call
-    setTimeout(() => {
-        showNotification('Account created successfully! Please login.', 'success');
-        closeModal('registerModal');
+    try {
+        const API_URL = window.API_BASE_URL || (window.APP_CONFIG ? window.APP_CONFIG.API_BASE_URL : (window.location.origin + '/api'));
+        const response = await fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ firstName, lastName, email, phone, password })
+        });
         
-        // Pre-fill login form
-        document.getElementById('email').value = data.email;
-        document.getElementById('password').focus();
+        const data = await response.json();
         
+        if (response.ok) {
+            if (typeof showNotification === 'function') {
+                showNotification('Registration successful! Please login.', 'success');
+            }
+            // Switch to login form and pre-fill email
+            setTimeout(() => {
+                document.getElementById('registerModal').classList.remove('active');
+                document.getElementById('loginEmail').value = email;
+            }, 1500);
+        } else {
+            if (typeof showNotification === 'function') {
+                showNotification(data.error || 'Registration failed', 'error');
+            }
+        }
+    } catch (error) {
+        console.error('Registration error:', error);
+        if (typeof showNotification === 'function') {
+            showNotification('Registration failed. Please try again.', 'error');
+        }
+    } finally {
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-    }, 1500);
+    }
 }
 
 // Handle forgot password

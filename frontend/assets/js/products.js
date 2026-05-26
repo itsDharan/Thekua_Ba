@@ -137,6 +137,8 @@ function showNoProductsMessage(message) {
 
 // Add to cart from products page
 async function addToCartFromProducts(productId, event) {
+    if (event) event.stopPropagation();
+
     // Use the global addToCart function from main.js if available
     if (typeof addToCart === 'function') {
         await addToCart(productId);
@@ -187,17 +189,19 @@ async function addToCartFromProducts(productId, event) {
     }
 
     // Add visual feedback
-    const button = event.target;
-    const originalText = button.textContent;
-    const originalBackground = button.style.background;
-    button.textContent = 'Added!';
-    button.style.background = '#4CAF50';
-    button.disabled = true;
-    setTimeout(() => {
-        button.textContent = originalText;
-        button.style.background = originalBackground;
-        button.disabled = false;
-    }, 1000);
+    const button = event ? event.target.closest('.add-to-cart') : null;
+    if (button) {
+        const originalText = button.textContent;
+        const originalBackground = button.style.background;
+        button.textContent = 'Added!';
+        button.style.background = '#4CAF50';
+        button.disabled = true;
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.background = originalBackground;
+            button.disabled = false;
+        }, 1000);
+    }
 }
 
 // Quick View Modal Functions
@@ -438,10 +442,8 @@ function applySorting() {
             });
             break;
     }
-    if (currentPage > 1) {
-        currentPage = 1;
-        loadAllProducts();
-    }
+    currentPage = 1;
+    loadAllProducts();
 }
 
 function handleSearch() {
