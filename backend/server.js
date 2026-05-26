@@ -676,6 +676,27 @@ app.get('/api/seed', async (req, res) => {
     }
 });
 
+// ===== CLOUDINARY TEST ENDPOINT =====
+app.get('/api/test-cloudinary', async (req, res) => {
+    try {
+        const config = cloudinary.config();
+        if (!config.cloud_name || !config.api_key || !config.api_secret) {
+            return res.json({ 
+                status: 'ERROR', 
+                message: 'Cloudinary not configured',
+                cloud_name: config.cloud_name ? 'SET' : 'MISSING',
+                api_key: config.api_key ? 'SET' : 'MISSING',
+                api_secret: config.api_secret ? 'SET' : 'MISSING'
+            });
+        }
+        // Try pinging Cloudinary
+        const result = await cloudinary.api.ping();
+        res.json({ status: 'OK', message: 'Cloudinary connected!', cloud_name: config.cloud_name, ping: result });
+    } catch (error) {
+        res.json({ status: 'ERROR', message: error.message, cloud_name: cloudinary.config().cloud_name });
+    }
+});
+
 // ===== CATCH-ALL: Serve frontend for non-API routes =====
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'));
