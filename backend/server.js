@@ -36,8 +36,7 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'thekuaba-products',
-        allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-        transformation: [{ width: 800, height: 800, crop: 'limit', quality: 'auto' }]
+        allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp']
     }
 });
 
