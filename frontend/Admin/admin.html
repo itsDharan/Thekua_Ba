@@ -1032,6 +1032,11 @@
         async function handleProductSubmit(e) {
             e.preventDefault();
             
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Saving...';
+            submitBtn.disabled = true;
+
             const formData = new FormData();
             formData.append('name', document.getElementById('productName').value);
             formData.append('emoji', document.getElementById('productEmoji').value);
@@ -1053,24 +1058,38 @@
                 
                 const method = currentEditingProduct ? 'PUT' : 'POST';
 
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 60000);
+
                 const response = await fetch(url, {
                     method: method,
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
                     },
-                    body: formData
+                    body: formData,
+                    signal: controller.signal
                 });
+
+                clearTimeout(timeoutId);
+                const data = await response.json();
 
                 if (response.ok) {
                     closeProductModal();
                     loadProducts();
-                    alert('Product saved successfully');
+                    alert('Product saved successfully!');
                 } else {
-                    alert('Failed to save product');
+                    alert('Failed to save product: ' + (data.error || 'Unknown error'));
                 }
             } catch (error) {
                 console.error('Product submit error:', error);
-                alert('Failed to save product');
+                if (error.name === 'AbortError') {
+                    alert('Upload timed out. Try using a smaller image (under 2MB).');
+                } else {
+                    alert('Failed to save product: ' + error.message);
+                }
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
             }
         }
 

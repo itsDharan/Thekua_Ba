@@ -316,7 +316,18 @@ app.get('/api/admin/products', authenticateAdmin, async (req, res) => {
     }
 });
 
-app.post('/api/admin/products', authenticateAdmin, upload.array('images', 5), async (req, res) => {
+// Multer error handler wrapper
+const handleUpload = (req, res, next) => {
+    upload.array('images', 5)(req, res, (err) => {
+        if (err) {
+            console.error('Upload error:', err);
+            return res.status(400).json({ error: 'Image upload failed: ' + err.message });
+        }
+        next();
+    });
+};
+
+app.post('/api/admin/products', authenticateAdmin, handleUpload, async (req, res) => {
     try {
         const { name, description, price, emoji, category, bestseller, stock } = req.body;
         
@@ -343,7 +354,7 @@ app.post('/api/admin/products', authenticateAdmin, upload.array('images', 5), as
     }
 });
 
-app.put('/api/admin/products/:id', authenticateAdmin, upload.array('images', 5), async (req, res) => {
+app.put('/api/admin/products/:id', authenticateAdmin, handleUpload, async (req, res) => {
     try {
         const { name, description, price, emoji, category, bestseller, stock, isActive } = req.body;
         
