@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const { v2: cloudinary } = require('cloudinary');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 require('dotenv').config();
 
 const app = express();
@@ -26,21 +25,27 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/thekuaba'
 
 // Cloudinary Configuration
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
+    cloud_name: (process.env.CLOUDINARY_CLOUD_NAME || '').trim(),
+    api_key: (process.env.CLOUDINARY_API_KEY || '').trim(),
+    api_secret: (process.env.CLOUDINARY_API_SECRET || '').trim()
 });
 
-// File upload configuration (Cloudinary)
-const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-        folder: 'thekuaba-products',
-        allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp']
-    }
-});
+// File upload: use memory storage, then upload to Cloudinary manually
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
 
-const upload = multer({ storage: storage });
+// Helper: upload buffer to Cloudinary
+function uploadToCloudinary(fileBuffer, originalname) {
+    return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+            { folder: 'thekuaba-products', resource_type: 'image' },
+            (error, result) => {
+                if (error) reject(error);
+                else resolve(result);
+            }
+        );
+        stream.end(fileBuffer);
+    });
+}
 
 // Models
 const User = mongoose.model('User', {
@@ -330,10 +335,14 @@ app.post('/api/admin/products', authenticateAdmin, handleUpload, async (req, res
     try {
         const { name, description, price, emoji, category, bestseller, stock } = req.body;
         
-        const images = req.files ? req.files.map(file => ({
-            url: file.path,
-            filename: file.filename
-        })) : [];
+        // Upload images to Cloudinary
+        const images = [];
+        if (req.files && req.files.length > 0) {
+            for (const file of req.files) {
+                const result = await uploadToCloudinary(file.buffer, file.originalname);
+                images.push({ url: result.secure_url, filename: result.public_id });
+            }
+        }
 
         const product = new Product({
             name,
@@ -349,6 +358,7 @@ app.post('/api/admin/products', authenticateAdmin, handleUpload, async (req, res
         await product.save();
         res.status(201).json(product);
     } catch (error) {
+        console.error('Create product error:', error);
         res.status(500).json({ error: error.message });
     }
 });
@@ -369,11 +379,14 @@ app.put('/api/admin/products/:id', authenticateAdmin, handleUpload, async (req, 
             updatedAt: new Date()
         };
 
+        // Upload new images to Cloudinary if provided
         if (req.files && req.files.length > 0) {
-            updateData.images = req.files.map(file => ({
-                url: file.path,
-                filename: file.filename
-            }));
+            const images = [];
+            for (const file of req.files) {
+                const result = await uploadToCloudinary(file.buffer, file.originalname);
+                images.push({ url: result.secure_url, filename: result.public_id });
+            }
+            updateData.images = images;
         }
 
         const product = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true });
@@ -383,6 +396,7 @@ app.put('/api/admin/products/:id', authenticateAdmin, handleUpload, async (req, 
 
         res.json(product);
     } catch (error) {
+        console.error('Update product error:', error);
         res.status(500).json({ error: error.message });
     }
 });
